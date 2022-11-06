@@ -1,3 +1,5 @@
+import { gql, useMutation } from "@apollo/client";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import {
   MainWrapper,
@@ -29,7 +31,17 @@ import {
   Error,
 } from "../../../styles/emotion";
 
+const CREATE_BOARD = gql`
+  mutation createBoard($createBoardInput: CreateBoardInput!) {
+    createBoard(createBoardInput: $createBoardInput) {
+      _id
+    }
+  }
+`;
+
 export default function BoardWriteUI() {
+  const router = useRouter();
+
   const [writer, setWriter] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
@@ -43,6 +55,42 @@ export default function BoardWriteUI() {
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
   const [EnrollConfirm, setEnrollConfirm] = useState(false);
+  const [createBoard] = useMutation(CREATE_BOARD);
+
+  const onClickEnroll = async () => {
+    // if (!writer) {
+    //   setWriterError("작성자를 입력해주세요.");
+    // }
+    // if (!password) {
+    //   setPasswordError("비밀번호를 입력해주세요.");
+    // }
+    // if (!title) {
+    //   setTitleError("제목을 입력해주세요.");
+    // }
+    // if (!contents) {
+    //   setContentsError("내용을 입력해주세요.");
+    // }
+    if (writer && password && title && contents) {
+      try {
+        const result = await createBoard({
+          variables: {
+            createBoardInput: {
+              writer: writer,
+              password: password,
+              title: title,
+              contents: contents,
+            },
+          },
+        });
+        alert("게시글 등록이 완료되었습니다.");
+        console.log(result);
+        console.log(result.data.createBoard.number);
+        router.push(`/boards/new/${result.data?.createBoard._id}`);
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  };
 
   const onChangeWriter = (event) => {
     setWriter(event.target.value);
@@ -69,21 +117,6 @@ export default function BoardWriteUI() {
     setContents(event.target.value);
     if (event.target.value !== "") {
       setContentsError("");
-    }
-  };
-
-  const onClickEnroll = () => {
-    if (!writer) {
-      setWriterError("작성자를 입력해주세요.");
-    }
-    if (!password) {
-      setPasswordError("비밀번호를 입력해주세요.");
-    }
-    if (!title) {
-      setTitleError("제목을 입력해주세요.");
-    }
-    if (!contents) {
-      setContentsError("내용을 입력해주세요.");
     }
   };
 
