@@ -9,3 +9,28 @@ export const FETCH_BOARD = gql`
     }
   }
 `;
+
+export const UPDATE_BOARD = gql`
+  mutation updateBoard(
+    $updateBoardInput: UpdateBoardInput!
+    $password: String
+    $boardId: ID!
+  ) {
+    updateBoard(
+      UpdateBoardInput: $UpdateBoardInput
+      password: $password
+      boardId: $boardId
+    ) {
+      _id
+      writer
+      title
+      contents
+    }
+  }
+`;
+
+export const DELETE_BOARD = gql`
+  mutation deleteBoard($boardId: ID!) {
+    deleteBoard(boardId: $boardId)
+  }
+`;

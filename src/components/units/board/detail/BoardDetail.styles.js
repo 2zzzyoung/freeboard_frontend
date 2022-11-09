@@ -145,7 +145,7 @@ export const Button = styled.div`
   font-size: 16px;
   font-weight: 500;
   text-align: center;
-  /* align-items: center; */
+  cursor: pointer;
 `;
 
 // export const CommentWrapper = styled.div``;
@@ -193,6 +193,7 @@ export const CommentButton = styled.button`
   height: 52px;
   background-color: #000000;
   color: white;
+  cursor: pointer;
 `;
 
 // export const WriterComment = styled.div``;

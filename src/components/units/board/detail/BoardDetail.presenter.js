@@ -65,6 +65,7 @@ export default function BoardDetailUI(props) {
           <S.ButtonContainer>
             <S.Button style={{ paddingTop: "8px" }}>목록으로</S.Button>
             <S.Button style={{ paddingTop: "8px" }}>수정하기</S.Button>
+            <S.Button style={{ paddingTop: "8px" }}>삭제하기</S.Button>
             {/* <Button>삭제하기</Button> */}
           </S.ButtonContainer>
           <S.CommentTitle>
