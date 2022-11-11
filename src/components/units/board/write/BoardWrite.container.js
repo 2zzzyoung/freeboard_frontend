@@ -1,26 +1,77 @@
 import BoardWriteUI from "./BoardWrite.presenter";
-import { CREATE_BOARD } from "./BoardWrite.queries";
+import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-export default function BoardWrite() {
+export default function BoardWrite(props) {
   const router = useRouter();
+
+  const [isActive, setIsActive] = useState(false);
 
   const [writer, setWriter] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
-  const [zipcode, setZipcode] = useState("");
-  const [youtube, setYoutube] = useState("");
-  const [file, setFile] = useState(["", "", ""]);
+  // const [zipcode, setZipcode] = useState("");
+  // const [youtube, setYoutube] = useState("");
+  // const [file, setFile] = useState(["", "", ""]);
 
   const [writerError, setWriterError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
-  const [EnrollConfirm, setEnrollConfirm] = useState(false);
+  // const [EnrollConfirm, setEnrollConfirm] = useState(false);
   const [createBoard] = useMutation(CREATE_BOARD);
+  const [updateBoard] = useMutation(UPDATE_BOARD);
+
+  const onChangeWriter = (event) => {
+    setWriter(event.target.value);
+    if (event.target.value !== "") {
+      setWriterError("");
+    }
+    if (event.target.value && password && title && contents) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  };
+
+  const onChangePassword = (event) => {
+    setPassword(event.target.value);
+    if (event.target.value !== "") {
+      setPasswordError("");
+    }
+    if (writer && event.target.value && title && contents) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  };
+
+  const onChangeTitle = (event) => {
+    setTitle(event.target.value);
+    if (event.target.value !== "") {
+      setTitleError("");
+    }
+    if (writer && password && event.target.value && contents) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  };
+
+  const onChangeContents = (event) => {
+    setContents(event.target.value);
+    if (event.target.value !== "") {
+      setContentsError("");
+    }
+    if (writer && password && title && event.target.value) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  };
 
   const onClickEnroll = async () => {
     if (!writer) {
@@ -40,16 +91,15 @@ export default function BoardWrite() {
         const result = await createBoard({
           variables: {
             createBoardInput: {
-              writer: writer,
-              password: password,
-              title: title,
-              contents: contents,
+              writer,
+              password,
+              title,
+              contents,
             },
           },
         });
         alert("게시글 등록이 완료되었습니다.");
-        console.log(result);
-        console.log(result.data.createBoard.number);
+        console.log(result.data?.createBoard._id);
         router.push(`/boards/${result.data?.createBoard._id}`);
       } catch (error) {
         alert(error.message);
@@ -57,41 +107,24 @@ export default function BoardWrite() {
     }
   };
 
-  const onChangeWriter = (event) => {
-    setWriter(event.target.value);
-    if (event.target.value !== "") {
-      setWriterError("");
-    }
+  const onClickEdit = async () => {
+    const myVariables = {};
   };
-
-  const onChangePassword = (event) => {
-    setPassword(event.target.value);
-    if (event.target.value !== "") {
-      setPasswordError("");
-    }
-  };
-
-  const onChangeTitle = (event) => {
-    setTitle(event.target.value);
-    if (event.target.value !== "") {
-      setTitleError("");
-    }
-  };
-
-  const onChangeContents = (event) => {
-    setContents(event.target.value);
-    if (event.target.value !== "") {
-      setContentsError("");
-    }
-  };
-
   return (
     <BoardWriteUI
       onClickEnroll={onClickEnroll}
+      onClickEdit={onClickEdit}
       onChangeWriter={onChangeWriter}
       onChangePassword={onChangePassword}
       onChangeTitle={onChangeTitle}
       onChangeContents={onChangeContents}
+      writerError={writerError}
+      passwordError={passwordError}
+      titleError={titleError}
+      contentsError={contentsError}
+      isActive={isActive}
+      isEdit={props.isEdit}
+      data={props.data}
     />
   );
 }

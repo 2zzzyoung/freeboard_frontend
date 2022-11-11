@@ -167,7 +167,7 @@ export const EnrollBtn = styled.button`
   align-items: center;
   width: 180px;
   height: 52px;
-  background: #ffd600;
+  background: ${(props) => (props.isActive ? "#ffd600" : "default")};
   border: none;
   margin-top: 50px;
   font-size: 16px;

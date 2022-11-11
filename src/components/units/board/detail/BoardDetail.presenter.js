@@ -1,4 +1,5 @@
 import * as S from "./BoardDetail.styles";
+import { getDate } from "../../../../commons/libraries/utils";
 
 export default function BoardDetailUI(props) {
   return (
@@ -14,7 +15,7 @@ export default function BoardDetailUI(props) {
                 ></img>
                 <S.WriterInfo>
                   <div style={{ fontSize: "24px", fontWeight: "500" }}>
-                    {props.data?.fetchBoard.writer}
+                    {props.data?.fetchBoard?.writer}
                   </div>
                   <div
                     style={{
@@ -23,7 +24,7 @@ export default function BoardDetailUI(props) {
                       color: "#bdbdbd",
                     }}
                   >
-                    Date
+                    {getDate(props.data?.fetchBoard?.createAt)}
                   </div>
                 </S.WriterInfo>
               </S.NameContainer>
@@ -34,10 +35,10 @@ export default function BoardDetailUI(props) {
             </S.TopWrapper>
           </S.DD>
           <S.MiddleWrapper>
-            <S.TitleContainer>{props.data?.fetchBoard.title}</S.TitleContainer>
+            <S.TitleContainer>{props.data?.fetchBoard?.title}</S.TitleContainer>
             <S.ContentsContainer>
               <S.PicContainer></S.PicContainer>
-              <S.Contents>{props.data?.fetchBoard.Contents}</S.Contents>
+              <S.Contents>{props.data?.fetchBoard?.Contents}</S.Contents>
               <S.VideoContainer>
                 <div
                   style={{
@@ -63,9 +64,18 @@ export default function BoardDetailUI(props) {
       <S.Wrapper2>
         <S.CommentWrapper>
           <S.ButtonContainer>
-            <S.Button style={{ paddingTop: "8px" }}>목록으로</S.Button>
-            <S.Button style={{ paddingTop: "8px" }}>수정하기</S.Button>
-            <S.Button style={{ paddingTop: "8px" }}>삭제하기</S.Button>
+            <S.Button style={{ paddingTop: "8px" }} onClick={props.onClickList}>
+              목록으로
+            </S.Button>
+            <S.Button style={{ paddingTop: "8px" }} onClick={props.onClickEdit}>
+              수정하기
+            </S.Button>
+            <S.Button
+              style={{ paddingTop: "8px" }}
+              onClick={props.onClickDelete}
+            >
+              삭제하기
+            </S.Button>
             {/* <Button>삭제하기</Button> */}
           </S.ButtonContainer>
           <S.CommentTitle>

@@ -6,7 +6,7 @@ export default function BoardWriteUI(props) {
       <S.Wrapper>
         <S.MainWrapper>
           <S.TitleContainer>
-            <S.Title>게시물 등록</S.Title>
+            <S.Title>{props.isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
           </S.TitleContainer>
           <S.TopInputContainer>
             <S.WriterContainer>
@@ -15,6 +15,7 @@ export default function BoardWriteUI(props) {
                 type="text"
                 placeholder="이름을 적어주세요."
                 onChange={props.onChangeWriter}
+                defaultValue={props.data?.fetchBoard.writer}
               ></S.Input1>
               <S.Error>{props.writerError}</S.Error>
             </S.WriterContainer>
@@ -24,6 +25,7 @@ export default function BoardWriteUI(props) {
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
                 onChange={props.onChangePassword}
+                defaultValue={props.data?.fetchBoard.password}
               ></S.Input1>
               <S.Error>{props.passwordError}</S.Error>
             </S.PasswordContainer>
@@ -34,6 +36,7 @@ export default function BoardWriteUI(props) {
               type="text"
               placeholder="제목을 작성해주세요."
               onChange={props.onChangeTitle}
+              defaultValue={props.data?.fetchBoard.title}
             ></S.Input2>
             <S.Error>{props.titleError}</S.Error>
           </S.TitleWrapper>
@@ -44,6 +47,7 @@ export default function BoardWriteUI(props) {
                 placeholder="내용을 작성해주세요."
                 onChange={props.onChangeContents}
                 style={{ paddingBottom: "440px" }}
+                defaultValue={props.data?.fetchBoard.contents}
               ></S.Input3>
               <S.Error>{props.contentsError}</S.Error>
             </S.Middle>
@@ -112,7 +116,12 @@ export default function BoardWriteUI(props) {
               </div>
             </S.Box2>
           </S.BottomWrapper>
-          <S.EnrollBtn onClick={props.onClickEnroll}>등록하기</S.EnrollBtn>
+          <S.EnrollBtn
+            onClick={props.isEdit ? props.onClickEdit : props.onClickEnroll}
+            isActive={props.isEdit ? true : props.isActive}
+          >
+            {props.isEdit ? "수정하기" : "등록하기"}
+          </S.EnrollBtn>
         </S.MainWrapper>
       </S.Wrapper>
     </>
