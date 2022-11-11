@@ -1,7 +1,14 @@
 import * as S from "./BoardDetail.styles";
 import { getDate } from "../../../../commons/libraries/utils";
 
-export default function BoardDetailUI(props) {
+export default function BoardDetailUI({
+  data,
+  onClickLikeBoard,
+  onClickDislikeBoard,
+  onClickList,
+  onClickEdit,
+  onClickDelete,
+}) {
   return (
     <>
       <S.Wrapper>
@@ -15,7 +22,7 @@ export default function BoardDetailUI(props) {
                 ></img>
                 <S.WriterInfo>
                   <div style={{ fontSize: "24px", fontWeight: "500" }}>
-                    {props.data?.fetchBoard?.writer}
+                    {data?.fetchBoard?.writer}
                   </div>
                   <div
                     style={{
@@ -24,7 +31,7 @@ export default function BoardDetailUI(props) {
                       color: "#bdbdbd",
                     }}
                   >
-                    {getDate(props.data?.fetchBoard?.createAt)}
+                    {getDate(data?.fetchBoard?.createAt)}
                   </div>
                 </S.WriterInfo>
               </S.NameContainer>
@@ -35,10 +42,10 @@ export default function BoardDetailUI(props) {
             </S.TopWrapper>
           </S.DD>
           <S.MiddleWrapper>
-            <S.TitleContainer>{props.data?.fetchBoard?.title}</S.TitleContainer>
+            <S.TitleContainer>{data?.fetchBoard?.title}</S.TitleContainer>
             <S.ContentsContainer>
               <S.PicContainer></S.PicContainer>
-              <S.Contents>{props.data?.fetchBoard?.Contents}</S.Contents>
+              <S.Contents>{data?.fetchBoard?.Contents}</S.Contents>
               <S.VideoContainer>
                 <div
                   style={{
@@ -49,10 +56,10 @@ export default function BoardDetailUI(props) {
                 ></div>
               </S.VideoContainer>
               <S.Thumbs>
-                <S.Like>
+                <S.Like onClick={onClickLikeBoard}>
                   <img src="/like.png"></img>
                 </S.Like>
-                <S.DisLike>
+                <S.DisLike onClick={onClickDislikeBoard}>
                   <img src="/dislike.png"></img>
                 </S.DisLike>
               </S.Thumbs>
@@ -64,16 +71,13 @@ export default function BoardDetailUI(props) {
       <S.Wrapper2>
         <S.CommentWrapper>
           <S.ButtonContainer>
-            <S.Button style={{ paddingTop: "8px" }} onClick={props.onClickList}>
+            <S.Button style={{ paddingTop: "8px" }} onClick={onClickList}>
               목록으로
             </S.Button>
-            <S.Button style={{ paddingTop: "8px" }} onClick={props.onClickEdit}>
+            <S.Button style={{ paddingTop: "8px" }} onClick={onClickEdit}>
               수정하기
             </S.Button>
-            <S.Button
-              style={{ paddingTop: "8px" }}
-              onClick={props.onClickDelete}
-            >
+            <S.Button style={{ paddingTop: "8px" }} onClick={onClickDelete}>
               삭제하기
             </S.Button>
             {/* <Button>삭제하기</Button> */}

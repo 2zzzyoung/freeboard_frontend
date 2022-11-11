@@ -13,9 +13,10 @@ export default function BoardWrite(props) {
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
-  // const [zipcode, setZipcode] = useState("");
-  // const [youtube, setYoutube] = useState("");
-  // const [file, setFile] = useState(["", "", ""]);
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [likeCount, setLikeCount] = useState(0);
+  dislikeCount;
+  const [image, setImage] = useState(["", "", ""]);
 
   const [writerError, setWriterError] = useState("");
   const [passwordError, setPasswordError] = useState("");
