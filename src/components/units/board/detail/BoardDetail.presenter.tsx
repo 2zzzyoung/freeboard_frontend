@@ -45,16 +45,20 @@ export default function BoardDetailUI({
             <S.TitleContainer>{data?.fetchBoard?.title}</S.TitleContainer>
             <S.ContentsContainer>
               <S.PicContainer></S.PicContainer>
+
               <S.Contents>{data?.fetchBoard?.Contents}</S.Contents>
-              <S.VideoContainer>
-                <div
-                  style={{
-                    width: "486px",
-                    height: "240px",
-                    backgroundColor: "#f2f2f2",
-                  }}
-                ></div>
-              </S.VideoContainer>
+              {data?.fetchBoard.youtubeUrl ? (
+                <S.VideoContainer>
+                  <div
+                    style={{
+                      width: "486px",
+                      height: "240px",
+                      backgroundColor: "#f2f2f2",
+                    }}
+                  ></div>
+                </S.VideoContainer>
+              ) : null}
+
               <S.Thumbs>
                 <S.Like onClick={onClickLikeBoard}>
                   <img src="/like.png"></img>

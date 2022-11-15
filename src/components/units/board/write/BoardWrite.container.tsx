@@ -1,11 +1,17 @@
 import BoardWriteUI from "./BoardWrite.presenter";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import {
+  errorModal,
+  successModal,
+} from "../../../commons/modal/modal-function";
+import { FETCH_BOARD } from "../detail/BoardDetail.queries";
 
 export default function BoardWrite(props) {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [isActive, setIsActive] = useState(false);
 
@@ -13,10 +19,11 @@ export default function BoardWrite(props) {
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
-  const [youtubeUrl, setYoutubeUrl] = useState("");
-  const [likeCount, setLikeCount] = useState(0);
-  dislikeCount;
-  const [image, setImage] = useState(["", "", ""]);
+  // const [youtubeUrl, setYoutubeUrl] = useState("");
+  // const [likeCount, setLikeCount] = useState(0);
+  // const [dislikeCount, setDislikeCount] = useState(0);
+  // const [image, setImage] = useState(["", "", ""]);
+  // const [boardAddress, setBoardAddress] = "";
 
   const [writerError, setWriterError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -25,6 +32,12 @@ export default function BoardWrite(props) {
   // const [EnrollConfirm, setEnrollConfirm] = useState(false);
   const [createBoard] = useMutation(CREATE_BOARD);
   const [updateBoard] = useMutation(UPDATE_BOARD);
+
+  const { data } = useQuery<Pick<IQeury, "fetchBoard">>(FETCH_BOARD, {
+    variables: {
+      boardId: router.query._id,
+    },
+  })
 
   const onChangeWriter = (event) => {
     setWriter(event.target.value);
@@ -99,17 +112,25 @@ export default function BoardWrite(props) {
             },
           },
         });
-        alert("게시글 등록이 완료되었습니다.");
+        setIsModalOpen(true);
+        successModal("게시글 등록이 완료되었습니다.");
         console.log(result.data?.createBoard._id);
-        router.push(`/boards/${result.data?.createBoard._id}`);
+        await router.push(`/boards/${result.data?.createBoard._id}`);
       } catch (error) {
-        alert(error.message);
+        errorModal(error.message);
       }
     }
   };
 
   const onClickEdit = async () => {
-    const myVariables = {};
+    const myVariables: IMyvariables = {
+      boardId: String(router.query._id),
+      updateBoardInput: {},
+    }
+    if (
+
+    ){}
+
   };
   return (
     <BoardWriteUI
@@ -126,6 +147,7 @@ export default function BoardWrite(props) {
       isActive={isActive}
       isEdit={props.isEdit}
       data={props.data}
+      isModalOpen={isModalOpen}
     />
   );
 }

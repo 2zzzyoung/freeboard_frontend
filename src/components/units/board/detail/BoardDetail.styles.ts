@@ -214,8 +214,10 @@ export const Thumbs = styled.div`
 
 export const Like = styled.div`
   /* display: flex; */
+  cursor: pointer;
 `;
 
 export const DisLike = styled.div`
   /* display: flex; */
+  cursor: pointer;
 `;

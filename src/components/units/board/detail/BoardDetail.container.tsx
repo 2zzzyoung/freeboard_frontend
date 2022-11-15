@@ -1,18 +1,15 @@
 import BoardDetailUI from "./BoardDetail.presenter";
 import {
-  CREATE_BOARD_COMMENT,
   DELETE_BOARD,
-  DELETE_BOARD_COMMENT,
   DISLIKE_BOARD,
   FETCH_BOARD,
-  FETCH_BOARD_COMMENTS,
   LIKE_BOARD,
   UPDATE_BOARD,
-  UPDATE_BOARD_COMMENT,
 } from "./BoardDetail.queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { successModal } from "../../../commons/modal/modal-function";
 
 export default function BoardDetail(props) {
   const router = useRouter();
@@ -21,12 +18,10 @@ export default function BoardDetail(props) {
   const [password, setPassword] = useState("");
   const [contents, setContents] = useState("");
 
+  const [updateBoard] = useMutation(UPDATE_BOARD);
   const [deleteBoard] = useMutation(DELETE_BOARD);
   const [likeBoard] = useMutation(LIKE_BOARD);
   const [dislikeBoard] = useMutation(DISLIKE_BOARD);
-  const [createBoardComment] = useMutation(CREATE_BOARD_COMMENT);
-  const [updateBoardComment] = useMutation(UPDATE_BOARD_COMMENT);
-  const [deleteBoardComment] = useMutation(DELETE_BOARD_COMMENT);
 
   const { data } = useQuery(FETCH_BOARD, {
     variables: { boardId: router.query.boardId },
@@ -38,33 +33,21 @@ export default function BoardDetail(props) {
     ],
   });
 
-  const { data: commentData } = useQuery(FETCH_BOARD_COMMENTS, {
-    variables: { boardId: router.query.boardId },
-    refetchQueries: [
-      {
-        query: FETCH_BOARD_COMMENTS,
-        variables: { boardId: router.query.boardId },
-      },
-    ],
-  });
+  console.log(data);
 
   const onClickList = async () => {
     router.push("/boards");
   };
 
   const onClickEdit = async () => {
-    const result = await updateBoard({
-      variables: myVariables,
-    });
-
-    alert(result.data.updateBoard.message);
-    router.push(`/boards/${result.data.updateBoard._id}/edit`);
+    router.push(`/boards/${data?.updateBoard._id}/edit`);
   };
+
   const onClickDelete = async () => {
     const result = await deleteBoard({
       variables: { boardId: router.query.boardId },
     });
-    alert("삭제가 완료되었습니다.");
+    successModal("삭제가 완료되었습니다.");
     router.push("/boards");
   };
 
@@ -94,7 +77,7 @@ export default function BoardDetail(props) {
 
   const onClickCommentSubmit = async () => {
     if (!writer || !password || !contents) {
-      alert("모두 작성해주세요.");
+      successModal("모두 작성해주세요.");
     } else {
       try {
         await createBoardComment({
