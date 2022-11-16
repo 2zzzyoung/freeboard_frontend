@@ -1,25 +1,24 @@
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { MouseEvent } from "react";
+import {
+  IQuery,
+  IQueryFetchBoardsArgs,
+} from "../../../../commons/types/generated/types";
 import BoardListUI from "./BoardList.presenter";
-import { FETCH_BOARDS, FETCH_BOARDS_COUNT } from "./BoardList.queries";
+import { FETCH_BOARDS } from "./BoardList.queries";
 
 export default function BoardList() {
   const router = useRouter();
-
-  const [endDate, setEndDate] = useState("");
-  const [startDate, setStateDate] = useState("");
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(0);
-
-  const { data } = useQuery(FETCH_BOARDS);
-  //   const { data } = useQuery(FETCH_BOARDS_COUNT);
+  const { data } = useQuery<Pick<IQuery, "fetchBoards">, IQueryFetchBoardsArgs>(
+    FETCH_BOARDS
+  );
 
   const onClickBoardNew = () => {
     router.push("/boards/new");
   };
 
-  const onClickBoardDetail = (event) => {
+  const onClickBoardDetail = (event: MouseEvent<HTMLDivElement>) => {
     router.push(`/boards/${event.target.id}`);
   };
 
@@ -27,7 +26,6 @@ export default function BoardList() {
     <BoardListUI
       onClickBoardNew={onClickBoardNew}
       onClickBoardDetail={onClickBoardDetail}
-      //   refetch={refetch}
       data={data}
     />
   );

@@ -2,17 +2,22 @@ import BoardWriteUI from "./BoardWrite.presenter";
 import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import {
   errorModal,
   successModal,
 } from "../../../commons/modal/modal-function";
 import { FETCH_BOARD } from "../detail/BoardDetail.queries";
+import {
+  IMutation,
+  IMutationCreateBoardArgs,
+  IMutationUpdateBoardArgs,
+  IQuery,
+  IQueryFetchBoardArgs,
+} from "../../../../commons/types/generated/types";
 
-export default function BoardWrite(props) {
+export default function BoardWrite() {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isActive, setIsActive] = useState(false);
 
   const [writer, setWriter] = useState("");
@@ -30,16 +35,25 @@ export default function BoardWrite(props) {
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
   // const [EnrollConfirm, setEnrollConfirm] = useState(false);
-  const [createBoard] = useMutation(CREATE_BOARD);
-  const [updateBoard] = useMutation(UPDATE_BOARD);
+  const [createBoard] = useMutation<
+    Pick<IMutation, "createBoard">,
+    IMutationCreateBoardArgs
+  >(CREATE_BOARD);
+  const [updateBoard] = useMutation<
+    Pick<IMutation, "updateBoard">,
+    IMutationUpdateBoardArgs
+  >(UPDATE_BOARD);
 
-  const { data } = useQuery<Pick<IQeury, "fetchBoard">>(FETCH_BOARD, {
-    variables: {
-      boardId: router.query._id,
-    },
-  })
+  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
+    FETCH_BOARD,
+    {
+      variables: {
+        boardId: router.query._id,
+      },
+    }
+  );
 
-  const onChangeWriter = (event) => {
+  const onChangeWriter = (event: ChangeEvent<HTMLInputElement>) => {
     setWriter(event.target.value);
     if (event.target.value !== "") {
       setWriterError("");
@@ -51,7 +65,7 @@ export default function BoardWrite(props) {
     }
   };
 
-  const onChangePassword = (event) => {
+  const onChangePassword = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
     if (event.target.value !== "") {
       setPasswordError("");
@@ -63,7 +77,7 @@ export default function BoardWrite(props) {
     }
   };
 
-  const onChangeTitle = (event) => {
+  const onChangeTitle = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     if (event.target.value !== "") {
       setTitleError("");
@@ -75,7 +89,7 @@ export default function BoardWrite(props) {
     }
   };
 
-  const onChangeContents = (event) => {
+  const onChangeContents = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setContents(event.target.value);
     if (event.target.value !== "") {
       setContentsError("");
@@ -112,7 +126,6 @@ export default function BoardWrite(props) {
             },
           },
         });
-        setIsModalOpen(true);
         successModal("게시글 등록이 완료되었습니다.");
         console.log(result.data?.createBoard._id);
         await router.push(`/boards/${result.data?.createBoard._id}`);
@@ -123,14 +136,32 @@ export default function BoardWrite(props) {
   };
 
   const onClickEdit = async () => {
-    const myVariables: IMyvariables = {
-      boardId: String(router.query._id),
-      updateBoardInput: {},
+    if (!title && !contents) {
+      successModal("수정된 내용이 없습니다.");
+      return;
     }
-    if (
 
-    ){}
+    if (!password) {
+      successModal("비밀번호를 입력해주세요.");
+      return;
+    }
 
+    const updateBoardInput: IUpdateBoardInput = {};
+    if (title) updateBoardInput.title = title;
+    if (contents) updateBoardInput.contents = contents;
+
+    try {
+      const result = await updateBoard({
+        variables: {
+          boardId: router.query.boardId,
+          password: password,
+          updateBoardInput: updateBoardInput,
+        },
+      });
+      router.push(`/boards/${result.data?.updateBoard._id}`);
+    } catch (error) {
+      errorModal(error.message);
+    }
   };
   return (
     <BoardWriteUI
@@ -146,8 +177,7 @@ export default function BoardWrite(props) {
       contentsError={contentsError}
       isActive={isActive}
       isEdit={props.isEdit}
-      data={props.data}
-      isModalOpen={isModalOpen}
+      data={data}
     />
   );
 }

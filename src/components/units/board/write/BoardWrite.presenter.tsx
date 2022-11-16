@@ -1,6 +1,6 @@
 import * as S from "./BoardWrite.styles";
 
-export default function BoardWriteUI(props) {
+export default function BoardWriteUI(props: IBoardWriteUIProps) {
   return (
     <>
       <S.Wrapper>
@@ -15,7 +15,7 @@ export default function BoardWriteUI(props) {
                 type="text"
                 placeholder="이름을 적어주세요."
                 onChange={props.onChangeWriter}
-                defaultValue={props.data?.fetchBoard.writer}
+                defaultValue={props.data?.fetchBoard.writer || ""}
               ></S.Input1>
               <S.Error>{props.writerError}</S.Error>
             </S.WriterContainer>
@@ -25,7 +25,6 @@ export default function BoardWriteUI(props) {
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
                 onChange={props.onChangePassword}
-                defaultValue={props.data?.fetchBoard.password}
               ></S.Input1>
               <S.Error>{props.passwordError}</S.Error>
             </S.PasswordContainer>
@@ -36,7 +35,7 @@ export default function BoardWriteUI(props) {
               type="text"
               placeholder="제목을 작성해주세요."
               onChange={props.onChangeTitle}
-              defaultValue={props.data?.fetchBoard.title}
+              defaultValue={props.data?.fetchBoard.title || ""}
             ></S.Input2>
             <S.Error>{props.titleError}</S.Error>
           </S.TitleWrapper>
@@ -47,7 +46,7 @@ export default function BoardWriteUI(props) {
                 placeholder="내용을 작성해주세요."
                 onChange={props.onChangeContents}
                 style={{ paddingBottom: "440px" }}
-                defaultValue={props.data?.fetchBoard.contents}
+                defaultValue={props.data?.fetchBoard.contents || ""}
               ></S.Input3>
               <S.Error>{props.contentsError}</S.Error>
             </S.Middle>

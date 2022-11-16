@@ -1,11 +1,7 @@
 import * as S from "./BoardList.styles";
 import { getDate } from "../../../../commons/utils/utils";
 
-export default function BoardListUI({
-  data,
-  onClickBoardNew,
-  onClickBoardDetail,
-}) {
+export default function BoardListUI(props: IBoardListUIProps) {
   return (
     <S.Wrapper>
       <S.TopListWrapper>
@@ -29,7 +25,7 @@ export default function BoardListUI({
           <S.ColumnWriter>작성자</S.ColumnWriter>
           <S.ColumnDate>날짜</S.ColumnDate>
         </S.Row>
-        {data?.fetchBoards.map((el, index) => (
+        {props.data?.fetchBoards.map((el, index) => (
           <S.Row key={el._id}>
             <S.ColumnNumber>{10 - index}</S.ColumnNumber>
             <S.ColumnTitle id={el._id} onClick={onClickBoardDetail}>
@@ -47,7 +43,7 @@ export default function BoardListUI({
           <S.ButtonImage>
             <img src="/write.png"></img>
           </S.ButtonImage>
-          <S.Button onClick={onClickBoardNew}>게시물 등록</S.Button>
+          <S.Button onClick={props.onClickBoardNew}>게시물 등록</S.Button>
         </S.ButtonWrapper>
       </S.BottomContainer>
     </S.Wrapper>

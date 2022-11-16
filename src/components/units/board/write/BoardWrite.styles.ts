@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { IEnrollBtnProps } from "./BoardWrite.types";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -167,7 +168,8 @@ export const EnrollBtn = styled.button`
   align-items: center;
   width: 180px;
   height: 52px;
-  background: ${(props) => (props.isActive ? "#ffd600" : "default")};
+  background: ${(props: IEnrollBtnProps) =>
+    props.isActive ? "#ffd600" : "default"};
   border: none;
   margin-top: 50px;
   font-size: 16px;
