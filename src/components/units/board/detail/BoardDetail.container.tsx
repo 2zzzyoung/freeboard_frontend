@@ -4,14 +4,15 @@ import {
   DISLIKE_BOARD,
   FETCH_BOARD,
   LIKE_BOARD,
-  UPDATE_BOARD,
 } from "./BoardDetail.queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { successModal } from "../../../commons/modal/modal-function";
+import {
+  errorModal,
+  successModal,
+} from "../../../commons/modal/modal-function";
 import {
   IMutation,
-  IMutationUpdateBoardArgs,
   IMutationDeleteBoardArgs,
   IMutationLikeBoardArgs,
   IMutationDislikeBoardArgs,
@@ -21,11 +22,12 @@ import {
 
 export default function BoardDetail() {
   const router = useRouter();
+  // if (typeof router.query.boardId !== "string") {
+  //   errorModal("올바르지 않은 게시글 아이디입니다.");
+  //   void router.push("/");
+  //   return <></>;
+  // }
 
-  const [updateBoard] = useMutation<
-    Pick<IMutation, "updateBoard">,
-    IMutationUpdateBoardArgs
-  >(UPDATE_BOARD);
   const [deleteBoard] = useMutation<
     Pick<IMutation, "deleteBoard">,
     IMutationDeleteBoardArgs
@@ -39,22 +41,22 @@ export default function BoardDetail() {
     IMutationDislikeBoardArgs
   >(DISLIKE_BOARD);
 
-  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
-    FETCH_BOARD,
-    {
-      variables: { boardId: router.query.boardId },
-    }
-  );
+  const { data, refetch } = useQuery<
+    Pick<IQuery, "fetchBoard">,
+    IQueryFetchBoardArgs
+  >(FETCH_BOARD, { variables: { boardId: router.query.boardId } });
 
   const onClickList = () => {
-    router.push("/boards");
+    void router.push("/boards");
   };
 
   const onClickEdit = () => {
-    router.push(`/boards/${router.query._id}/edit`);
+    if (typeof router.query.boardId !== "string") return;
+    void router.push(`/boards/${router.query._id}/edit`);
   };
 
   const onClickDelete = async () => {
+    if (typeof router.query.boardId !== "string") return;
     const result = await deleteBoard({
       variables: { boardId: router.query.boardId },
     });
@@ -63,6 +65,7 @@ export default function BoardDetail() {
   };
 
   const onClickLikeBoard = async () => {
+    if (typeof router.query.boardId !== "string") return;
     await likeBoard({
       variables: { boardId: router.query.boardId },
       refetchQueries: [
@@ -75,6 +78,7 @@ export default function BoardDetail() {
   };
 
   const onClickDislikeBoard = async () => {
+    if (typeof router.query.boardId !== "string") return;
     await dislikeBoard({
       variables: { boardId: router.query.boardId },
       refetchQueries: [

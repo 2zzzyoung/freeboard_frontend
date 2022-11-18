@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import ReactPlayer from "react-player";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -56,6 +57,8 @@ export const ImageContainer = styled.div`
   gap: 20px;
 `;
 
+export const LocationIcon = styled.div``;
+
 export const MiddleWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -97,7 +100,7 @@ export const Contents = styled.div`
   margin-bottom: 70px;
 `;
 
-export const VideoContainer = styled.div`
+export const VideoContainer = styled(ReactPlayer)`
   display: flex;
   justify-content: center;
   /* margin-left: 105px; */
@@ -184,17 +187,17 @@ export const D = styled.div`
   justify-content: flex-end;
 `;
 
-export const CommentButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  width: 90px;
-  height: 52px;
-  background-color: #000000;
-  color: white;
-  cursor: pointer;
-`;
+// export const CommentButton = styled.button`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   font-weight: 500;
+//   width: 90px;
+//   height: 52px;
+//   background-color: #000000;
+//   color: white;
+//   cursor: pointer;
+// `;
 
 // export const WriterComment = styled.div``;
 
@@ -212,12 +215,18 @@ export const Thumbs = styled.div`
   margin-top: 150px;
 `;
 
+export const IconWrapper = styled.div``;
+
 export const Like = styled.div`
   /* display: flex; */
   cursor: pointer;
 `;
 
+export const LikeCount = styled.div``;
+
 export const DisLike = styled.div`
   /* display: flex; */
   cursor: pointer;
 `;
+
+export const DislikeCount = styled.div``;

@@ -1,18 +1,18 @@
-import "../styles/globals.css";
 import { AppProps } from "next/app";
-// import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client"; //module 요즘
-// const { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client"; // commonjs 옛날
+import { Global } from "@emotion/react";
 import ApolloSetting from "../src/components/commons/apollo";
 import "antd/dist/antd.css";
-import Layout from "../src/components/commons/layout";
+// import Layout from "../src/components/commons/layout";
+import { globalStyles } from "../src/commons/styles/globalStyles";
 
-function MyApp({ Component }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ApolloSetting>
       <>
-        <Layout>
-          <Component />
-        </Layout>
+        <Global styles={globalStyles} />
+        {/* <Layout> */}
+        <Component {...pageProps} />
+        {/* </Layout> */}
       </>
     </ApolloSetting>
   );

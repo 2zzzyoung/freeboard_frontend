@@ -1,5 +1,7 @@
+import { Tooltip } from "antd";
 import * as S from "./BoardDetail.styles";
 import { getDate } from "../../../../commons/libraries/utils";
+import ReactPlayer from "react-player";
 import { IBoardDetailUIProps } from "./BoardDetail.types";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps) {
@@ -31,7 +33,16 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
               </S.NameContainer>
               <S.ImageContainer>
                 <img src="/link.png" />
-                <img src="/location.png" />
+                <Tooltip
+                  placement="topRight"
+                  title={`${
+                    props.data?.fetchBoard.boardAddress?.address ?? ""
+                  } ${
+                    props.data?.fetchBoard.boardAddress?.addressDetail ?? ""
+                  }`}
+                >
+                  <S.LocationIcon src="/location.png" />
+                </Tooltip>
               </S.ImageContainer>
             </S.TopWrapper>
           </S.DD>
@@ -41,25 +52,27 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
               <S.PicContainer></S.PicContainer>
 
               <S.Contents>{props.data?.fetchBoard?.contents}</S.Contents>
-              {props.data?.fetchBoard.youtubeUrl ? (
-                <S.VideoContainer>
-                  <div
-                    style={{
-                      width: "486px",
-                      height: "240px",
-                      backgroundColor: "#f2f2f2",
-                    }}
-                  ></div>
-                </S.VideoContainer>
-              ) : null}
+              <S.VideoContainer
+                url={props.data?.fetchBoard.youtubeUrl}
+                width="486px"
+                height="240px"
+              />
 
               <S.Thumbs>
-                <S.Like onClick={props.onClickLikeBoard}>
-                  <img src="/like.png"></img>
-                </S.Like>
-                <S.DisLike onClick={props.onClickDislikeBoard}>
-                  <img src="/dislike.png"></img>
-                </S.DisLike>
+                <S.IconWrapper>
+                  <S.Like onClick={props.onClickLikeBoard}>
+                    <img src="/like.png"></img>
+                  </S.Like>
+                  <S.LikeCount>{props.data?.fetchBoard.likeCount}</S.LikeCount>
+                </S.IconWrapper>
+                <S.IconWrapper>
+                  <S.DisLike onClick={props.onClickDislikeBoard}>
+                    <img src="/dislike.png"></img>
+                  </S.DisLike>
+                  <S.DislikeCount>
+                    {props.data?.fetchBoard.dislikeCount}
+                  </S.DislikeCount>
+                </S.IconWrapper>
               </S.Thumbs>
             </S.ContentsContainer>
           </S.MiddleWrapper>
@@ -81,9 +94,9 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
             >
               삭제하기
             </S.Button>
-            {/* <Button>삭제하기</Button> */}
           </S.ButtonContainer>
-          <S.CommentTitle>
+          {/* 댓글 파일로 옮기기 */}
+          {/* <S.CommentTitle>
             <img src="/review.png" style={{ width: "20px", height: "20px" }} />
             <div style={{ fontSize: "16px", fontWeight: "600" }}>댓글</div>
           </S.CommentTitle>
@@ -104,7 +117,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
           ></S.CommentContents>
           <S.D>
             <S.CommentButton>등록하기</S.CommentButton>
-          </S.D>
+          </S.D> */}
 
           {/* <WriterComment>
             <EditButton></EditButton>

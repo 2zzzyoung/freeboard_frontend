@@ -15,8 +15,9 @@ import {
   IQuery,
   IQueryFetchBoardArgs,
 } from "../../../../commons/types/generated/types";
+import { IBoardWriteProps } from "./BoardWrite.types";
 
-export default function BoardWrite() {
+export default function BoardWrite(props: IBoardWriteProps) {
   const router = useRouter();
   const [isActive, setIsActive] = useState(false);
 

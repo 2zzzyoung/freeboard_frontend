@@ -12,17 +12,19 @@ const FETCH_BOARD = gql`
       writer
       title
       contents
+      youtubeUrl
+      images
     }
   }
 `;
 
 export default function BoardEditPage() {
-  // if(typeof router.query.boardId !== "string") {
-  //   router.push("/")
-  //   return <></>
-  // }
-
   const router = useRouter();
+  if (typeof router.query.boardId !== "string") {
+    router.push("/");
+    return <></>;
+  }
+
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
     FETCH_BOARD,
     {

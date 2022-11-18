@@ -1,5 +1,7 @@
+import { getDate } from "../../../../commons/libraries/utils";
+import Pagination from "../../../commons/paginations/pagination.container";
 import * as S from "./BoardList.styles";
-import { getDate } from "../../../../commons/utils/utils";
+import { IBoardListUIProps } from "./BoardList.types";
 
 export default function BoardListUI(props: IBoardListUIProps) {
   return (
@@ -28,7 +30,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
         {props.data?.fetchBoards.map((el, index) => (
           <S.Row key={el._id}>
             <S.ColumnNumber>{10 - index}</S.ColumnNumber>
-            <S.ColumnTitle id={el._id} onClick={onClickBoardDetail}>
+            <S.ColumnTitle id={el._id} onClick={props.onClickBoardDetail}>
               {el.title}
             </S.ColumnTitle>
             <S.ColumnWriter>{el.writer}</S.ColumnWriter>
@@ -37,8 +39,10 @@ export default function BoardListUI(props: IBoardListUIProps) {
         ))}
       </S.ListWrapper>
       <S.BottomContainer>
-        <S.Page>{"< >"}</S.Page>
-        {/* 페이지네이션 */}
+        <S.Page>
+          <Pagination refetch={props.refetch} count={props.count} />
+        </S.Page>
+
         <S.ButtonWrapper>
           <S.ButtonImage>
             <img src="/write.png"></img>

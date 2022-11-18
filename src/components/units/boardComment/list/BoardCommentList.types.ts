@@ -6,11 +6,13 @@ import {
 
 export interface IBoardCommentListUIProps {
   data?: Pick<IQuery, "fetchBoardComments">;
+  onLoadMore: () => void;
+  //   isOpenDeleteModal: boolean;
   //   onClickDelete: (event: MouseEvent<HTMLElement>) => void;
   //   onClickOpenDeleteModal: (event: MouseEvent<HTMLImageElement>) => void;
   //   onChangeDeletePassword: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-//   export interface IBoardCommentListUIItemProps {
-//     el: IBoardComment;
-// }
+export interface IBoardCommentListUIItemProps {
+  el: IBoardComment;
+}
