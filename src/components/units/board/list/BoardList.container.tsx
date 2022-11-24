@@ -16,24 +16,24 @@ export default function BoardList() {
     IQueryFetchBoardsArgs
   >(FETCH_BOARDS);
 
-  const { data: dataBoardsCount, refetch: refetchBoardsCount } = useQuery<
+  const { data: dataBoardsCount } = useQuery<
     Pick<IQuery, "fetchBoardsCount">,
     IQueryFetchBoardsCountArgs
   >(FETCH_BOARDS_COUNT);
 
   const onClickBoardNew = () => {
-    router.push("/boards/new");
+    void router.push("/boards/new");
   };
 
   const onClickBoardDetail = (event: MouseEvent<HTMLDivElement>) => {
-    router.push(`/boards/${event.target.id}`);
+    void router.push(`/boards/${event.currentTarget.id}`);
   };
 
   return (
     <BoardListUI
+      data={data}
       onClickBoardNew={onClickBoardNew}
       onClickBoardDetail={onClickBoardDetail}
-      data={data}
       refetch={refetch}
       count={dataBoardsCount?.fetchBoardsCount}
     />

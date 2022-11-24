@@ -4,8 +4,8 @@ import { IPaginationProps } from "./pagination.types";
 
 export default function Pagination(props: IPaginationProps) {
   const [startPage, setStartPage] = useState(1);
-  const [activedPage, setActivedPage] = useState(1);
   const lastPage = props.count != null ? Math.ceil(props.count / 10) : 0;
+  const [activedPage, setActivedPage] = useState(1);
 
   const onClickPage = (event: MouseEvent<HTMLSpanElement>) => {
     const activedPage = Number(event.currentTarget.id);

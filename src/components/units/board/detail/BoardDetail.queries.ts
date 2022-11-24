@@ -11,8 +11,6 @@ export const FETCH_BOARD = gql`
       likeCount
       dislikeCount
       images
-      boardAddress
-      user
       createdAt
       updatedAt
       deletedAt

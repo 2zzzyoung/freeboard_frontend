@@ -2,8 +2,14 @@ import * as S from "./BoardWrite.styles";
 import { IBoardWriteUIProps } from "./BoardWrite.types";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
+  console.log(props.data?.fetchBoard.writer);
   return (
     <>
+    {props.isOpen && (
+      <S.AddressModal visible={true}>
+        <S.AddressSerachInput onComplete={props.onCompleteAddressSearch} />
+      </S.AddressModal>
+    )}
       <S.Wrapper>
         <S.MainWrapper>
           <S.TitleContainer>
@@ -17,6 +23,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
                 placeholder="이름을 적어주세요."
                 onChange={props.onChangeWriter}
                 defaultValue={props.data?.fetchBoard.writer || ""}
+                readOnly={!!props.data?.fetchBoard.writer}
               ></S.Input1>
               <S.Error>{props.writerError}</S.Error>
             </S.WriterContainer>
@@ -36,7 +43,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               type="text"
               placeholder="제목을 작성해주세요."
               onChange={props.onChangeTitle}
-              defaultValue={props.data?.fetchBoard.title || ""}
+              defaultValue={props.data?.fetchBoard.title}
             ></S.Input2>
             <S.Error>{props.titleError}</S.Error>
           </S.TitleWrapper>
@@ -53,21 +60,40 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             </S.Middle>
             <S.Middle2>
               <S.Name>주소</S.Name>
-              <S.Input4></S.Input4>
-              <S.ZipBtn>우편번호 검색</S.ZipBtn>
+              <S.Input4>
+                <Zipcode placeholder="07250"
+                readOnly
+                value={
+                  props.zipcode ||
+                  (props.data?fetchBoard.boardAddress?.zipcode ?? "")
+                }
+                />
+              </S.Input4>
+              <S.ZipBtn onClick={props.onClickAddressSearch}>우편번호 검색</S.ZipBtn>
             </S.Middle2>
-            <S.Address1>
-              <S.Input2></S.Input2>
-            </S.Address1>
-            <S.Address2>
-              <S.Input2></S.Input2>
-            </S.Address2>
+            <S.Address1
+            readOnly
+            value={
+              props.address ||
+              (props.data?fetchBoard.boardAddress?.address ?? "")
+            }
+             />
+             <S.Address1
+             onChange={props.onChangeAddressDetail}
+             defaultValue={
+              (props.data?.fetchBoard.boardAddress?.addressDetail ?? "")
+             }
+             />
+            // <S.Address2>
+            //   <S.Input2></S.Input2>
+            // </S.Address2>
             <S.Youtube>
               <S.Name>유튜브</S.Name>
               <S.Input2
                 type="text"
                 placeholder="링크를 복사해주세요."
-              ></S.Input2>
+                onChange={props.onChangeYoutubeUrl}
+              />
             </S.Youtube>
           </S.MiddleContainer>
           <S.BottomWrapper>

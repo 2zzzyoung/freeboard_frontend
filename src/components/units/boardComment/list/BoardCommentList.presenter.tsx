@@ -15,8 +15,9 @@ import {
 } from "../../../../commons/types/generated/types";
 import { getDate } from "../../../../commons/libraries/utils";
 import { successModal } from "../../../commons/modal/modal-function";
+import InfiniteScroll from "react-infinite-scroller";
 
-export default function BoardCommentListUIItem(
+export default function BoardCommentListItemUI(
   props: IBoardCommentListUIItemProps
 ) {
   const router = useRouter();
@@ -55,28 +56,37 @@ export default function BoardCommentListUIItem(
 
   return (
     <>
-      {!isEdit && (
-        <S.ItemWrapper>
-          <S.FlexWrapper>
-            <S.Avatar src="/writer.png" />
-            <S.MainWrapper>
-              <S.WriterWrapper>
-                <S.Writer>{props.el?.writer}</S.Writer>
-                <S.Star value={props.el?.rating} disabled />
-              </S.WriterWrapper>
-              <S.Contents>{props.el?.contents}</S.Contents>
-            </S.MainWrapper>
-            <S.OptionWrapper>
-              <S.UpdateIcon src="/cmtEdit.png/" onClick={onClickUpdate} />
-              <S.DeleteIcon src="/cmtDlt.png/" onClick={onClickDelete} />
-            </S.OptionWrapper>
-          </S.FlexWrapper>
-          <S.DateString>{getDate(props.el?.createdAt)}</S.DateString>
-        </S.ItemWrapper>
-      )}
-      {isEdit && (
-        <BoardCommentWrite isEdit={true} setIsEdit={setIsEdit} el={props.el} />
-      )}
+      <InfiniteScroll pageStart={0} loadMore={props.onLoadMore} hasMore={true}>
+        {props.data?.fetchBoardComments.map((el) => {
+          <BoardCommentListUIItem key={el._id} el={el} />;
+        })}
+        {!isEdit && (
+          <S.ItemWrapper>
+            <S.FlexWrapper>
+              <S.Avatar src="/writer.png" />
+              <S.MainWrapper>
+                <S.WriterWrapper>
+                  <S.Writer>{props.el?.writer}</S.Writer>
+                  <S.Star value={props.el?.rating} disabled />
+                </S.WriterWrapper>
+                <S.Contents>{props.el?.contents}</S.Contents>
+              </S.MainWrapper>
+              <S.OptionWrapper>
+                <S.UpdateIcon src="/cmtEdit.png/" onClick={onClickUpdate} />
+                <S.DeleteIcon src="/cmtDlt.png/" onClick={onClickDelete} />
+              </S.OptionWrapper>
+            </S.FlexWrapper>
+            <S.DateString>{getDate(props.el?.createdAt)}</S.DateString>
+          </S.ItemWrapper>
+        )}
+        {isEdit && (
+          <BoardCommentWrite
+            isEdit={true}
+            setIsEdit={setIsEdit}
+            el={props.el}
+          />
+        )}
+      </InfiniteScroll>
     </>
   );
 }

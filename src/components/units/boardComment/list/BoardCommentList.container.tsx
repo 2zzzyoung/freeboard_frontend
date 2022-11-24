@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { MouseEvent } from "react";
 import {
   IQuery,
   IQueryFetchBoardCommentsArgs,
@@ -21,6 +22,26 @@ export default function BoardCommentList() {
   >(FETCH_BOARD_COMMENTS, {
     variables: { boardId: router.query.boardId },
   });
+
+  const onClickDelete = async (event: MouseEvent<HTMLImageElement>) => {
+    const CmtPassword = prompt("비밀번호를 입력하세요.");
+    try {
+      await deleteBoardComment({
+        variables: {
+          password: myPassword,
+          boardCommentId: event.currentTarget.id,
+        },
+        refetchQueries: [
+          {
+            query: FETCH_BOARD_COMMENTS,
+            variables: { boardId: router.query.boardId },
+          },
+        ],
+      });
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
+  };
 
   const onLoadMore = () => {
     if (!data) return;
