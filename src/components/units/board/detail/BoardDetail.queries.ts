@@ -14,6 +14,11 @@ export const FETCH_BOARD = gql`
       createdAt
       updatedAt
       deletedAt
+      boardAddress {
+        zipcode
+        address
+        addressDetail
+      }
     }
   }
 `;
@@ -33,5 +38,17 @@ export const LIKE_BOARD = gql`
 export const DISLIKE_BOARD = gql`
   mutation dislikeBoard($boardId: ID!) {
     dislikeBoard(boardId: $boardId)
+  }
+`;
+
+export const FETCH_BOARD_COMMENTS = gql`
+  query fetchBoardComments($page: Int, $boardId: ID!) {
+    fetchBoardComments(page: $page, boardId: $boardId) {
+      _id
+      writer
+      contents
+      rating
+      createdAt
+    }
   }
 `;

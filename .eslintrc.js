@@ -18,5 +18,7 @@ module.exports = {
     "@typescript-eslint/strict-boolean-expression": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/triple-slash-reference": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "no-unneeded-ternary": "off",
   },
 };

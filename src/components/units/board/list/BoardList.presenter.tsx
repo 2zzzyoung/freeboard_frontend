@@ -1,7 +1,9 @@
 import { getDate } from "../../../../commons/libraries/utils";
 import Pagination from "../../../commons/paginations/pagination.container";
+import Searchbar from "../../../commons/searchbar/searchbar.container";
 import * as S from "./BoardList.styles";
 import { IBoardListUIProps } from "./BoardList.types";
+import { v4 as uuidv4 } from "uuid";
 
 export default function BoardListUI(props: IBoardListUIProps) {
   return (
@@ -12,13 +14,13 @@ export default function BoardListUI(props: IBoardListUIProps) {
       <S.SearchContainer>
         <S.SearchBox>
           <S.SearchImg src="/search.png" />
-          <S.SearchInput
-            type="text"
-            placeholder="제목을 검색해주세요."
-          ></S.SearchInput>
+          <Searchbar
+            refetch={props.refetch}
+            refetchBoardsCount={props.refetchBoardsCount}
+            onChangeKeyword={props.onChangeKeyword}
+          />
         </S.SearchBox>
-        <S.SearchDate></S.SearchDate>
-        <S.SearchBtn>검색하기</S.SearchBtn>
+        {/* <S.SearchBtn>검색하기</S.SearchBtn> */}
       </S.SearchContainer>
       <S.ListWrapper>
         <S.Row style={{ fontSize: "18px", fontWeight: "500" }}>
@@ -31,7 +33,14 @@ export default function BoardListUI(props: IBoardListUIProps) {
           <S.Row key={el._id}>
             <S.ColumnNumber>{10 - index}</S.ColumnNumber>
             <S.ColumnTitle id={el._id} onClick={props.onClickBoardDetail}>
-              {el.title}
+              {el.title
+                .replaceAll(props.keyword, `@#$${props.keyword}@#$`)
+                .split("@#$")
+                .map((el) => (
+                  <S.TextToken key={uuidv4()} isMatched={props.keyword === el}>
+                    {el}
+                  </S.TextToken>
+                ))}
             </S.ColumnTitle>
             <S.ColumnWriter>{el.writer}</S.ColumnWriter>
             <S.ColumnDate>{getDate(el.createdAt)}</S.ColumnDate>

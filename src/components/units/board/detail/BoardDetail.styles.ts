@@ -11,7 +11,6 @@ export const Wrapper = styled.div`
 
 export const MainWrapper = styled.div`
   width: 1200px;
-  height: 1600px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
   /* display: flex; */
   /* justify-content: center; */
@@ -74,7 +73,6 @@ export const TitleContainer = styled.div`
   display: flex;
   /* justify-content: flex-start; */
   padding-top: 70px;
-  padding-right: 810px;
 `;
 
 export const ContentsContainer = styled.div`
@@ -83,7 +81,8 @@ export const ContentsContainer = styled.div`
   flex-direction: column;
 `;
 
-export const PicContainer = styled.div`
+export const PicContainer = styled.img`
+  display: block;
   width: 996px;
   height: 480px;
   background-color: #f2f2f2;
@@ -103,8 +102,7 @@ export const Contents = styled.div`
 export const VideoContainer = styled(ReactPlayer)`
   display: flex;
   justify-content: center;
-  /* margin-left: 105px; */
-  margin-top: 50px;
+  margin: 50px auto 0;
 `;
 
 // export const BottomWrapper = styled.div``;
@@ -212,7 +210,7 @@ export const Thumbs = styled.div`
   flex-direction: row;
   justify-content: center;
   gap: 40px;
-  margin-top: 150px;
+  margin: 100px 0;
 `;
 
 export const IconWrapper = styled.div``;

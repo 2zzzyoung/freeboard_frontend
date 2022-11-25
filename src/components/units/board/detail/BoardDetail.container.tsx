@@ -3,6 +3,7 @@ import {
   DELETE_BOARD,
   DISLIKE_BOARD,
   FETCH_BOARD,
+  FETCH_BOARD_COMMENTS,
   LIKE_BOARD,
 } from "./BoardDetail.queries";
 import { useMutation, useQuery } from "@apollo/client";
@@ -19,6 +20,7 @@ import {
   IQuery,
   IQueryFetchBoardArgs,
 } from "../../../../commons/types/generated/types";
+import { useEffect } from "react";
 
 export default function BoardDetail() {
   const router = useRouter();
@@ -44,7 +46,11 @@ export default function BoardDetail() {
   const { data, refetch } = useQuery<
     Pick<IQuery, "fetchBoard">,
     IQueryFetchBoardArgs
-  >(FETCH_BOARD, { variables: { boardId: router.query.boardId } });
+  >(FETCH_BOARD, { variables: { boardId: String(router.query.boardId) } });
+
+  useEffect(() => {
+    void refetch();
+  }, [data]);
 
   const onClickList = () => {
     void router.push("/boards");
@@ -52,16 +58,16 @@ export default function BoardDetail() {
 
   const onClickEdit = () => {
     if (typeof router.query.boardId !== "string") return;
-    void router.push(`/boards/${router.query._id}/edit`);
+    void router.push(`/boards/${router.query.boardId}/edit`);
   };
 
   const onClickDelete = async () => {
     if (typeof router.query.boardId !== "string") return;
-    const result = await deleteBoard({
+    await deleteBoard({
       variables: { boardId: router.query.boardId },
     });
     successModal("삭제가 완료되었습니다.");
-    router.push("/boards");
+    void router.push("/boards");
   };
 
   const onClickLikeBoard = async () => {
@@ -89,6 +95,13 @@ export default function BoardDetail() {
       ],
     });
   };
+
+  const { data: comments } = useQuery(FETCH_BOARD_COMMENTS, {
+    variables: {
+      boardId: String(router.query.boardId),
+      page: 1,
+    },
+  });
 
   // const onClickCommentSubmit = async () => {
   //   if (!writer || !password || !contents) {
@@ -131,6 +144,7 @@ export default function BoardDetail() {
       onClickLikeBoard={onClickLikeBoard}
       onClickDislikeBoard={onClickDislikeBoard}
       data={data}
+      comments={comments}
     />
   );
 }

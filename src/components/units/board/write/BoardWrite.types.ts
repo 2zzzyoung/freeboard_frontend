@@ -36,7 +36,7 @@ export interface IBoardWriteUIProps {
   onChangeAddressDetail: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickAddressSearch: () => void;
   onCompleteAddressSearch: (data: any) => void;
-  onChangeFileUrls: (fileUrls: string, index: number) => void;
+  onChangeFile: (event: ChangeEvent<HTMLInputElement>) => void;
   onClickEnroll: () => void;
   onClickEdit: () => void;
   isEdit: boolean;

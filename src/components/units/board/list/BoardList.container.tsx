@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import {
   IQuery,
   IQueryFetchBoardsArgs,
@@ -10,13 +10,15 @@ import BoardListUI from "./BoardList.presenter";
 import { FETCH_BOARDS, FETCH_BOARDS_COUNT } from "./BoardList.queries";
 
 export default function BoardList() {
+  const [keyword, setKeyword] = useState("");
+
   const router = useRouter();
   const { data, refetch } = useQuery<
     Pick<IQuery, "fetchBoards">,
     IQueryFetchBoardsArgs
   >(FETCH_BOARDS);
 
-  const { data: dataBoardsCount } = useQuery<
+  const { data: dataBoardsCount, refetch: refetchBoardsCount } = useQuery<
     Pick<IQuery, "fetchBoardsCount">,
     IQueryFetchBoardsCountArgs
   >(FETCH_BOARDS_COUNT);
@@ -29,6 +31,10 @@ export default function BoardList() {
     void router.push(`/boards/${event.currentTarget.id}`);
   };
 
+  const onChangeKeyword = (value: string) => {
+    setKeyword(value);
+  };
+
   return (
     <BoardListUI
       data={data}
@@ -36,6 +42,9 @@ export default function BoardList() {
       onClickBoardDetail={onClickBoardDetail}
       refetch={refetch}
       count={dataBoardsCount?.fetchBoardsCount}
+      refetchBoardsCount={refetchBoardsCount}
+      onChangeKeyword={onChangeKeyword}
+      keyword={keyword}
     />
   );
 }

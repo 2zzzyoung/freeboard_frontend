@@ -7,4 +7,5 @@ export const BannerWrapper = styled.div`
 export const BannerSliderItem = styled.img`
   height: 450px;
   margin: auto;
+  width: 1200px;
 `;

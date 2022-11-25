@@ -1,34 +1,46 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import {
   IQuery,
   IQueryFetchBoardCommentsArgs,
 } from "../../../../commons/types/generated/types";
 import BoardCommentListUI from "./BoardCommentList.presenter";
-import { FETCH_BOARD_COMMENTS } from "./BoardCommentList.queries";
+import {
+  DELETE_BOARD_COMMENT,
+  FETCH_BOARD_COMMENTS,
+} from "./BoardCommentList.queries";
 
-export default function BoardCommentList() {
+export default function BoardCommentList(props) {
+  const [isEdit, setIsEdit] = useState(false);
+  // const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+
   const router = useRouter();
-  if (typeof router.query.boardId !== "string") {
-    alert("올바르지 않은 게시글 아이디입니다.");
-    void router.push("/");
-    return <></>;
-  }
+  // if (typeof router.query.boardId !== "string") {
+  //   alert("올바르지 않은 게시글 아이디입니다.");
+  //   void router.push("/");
+  //   return <></>;
+  // }
 
   const { data, fetchMore } = useQuery<
     Pick<IQuery, "fetchBoardComments">,
     IQueryFetchBoardCommentsArgs
   >(FETCH_BOARD_COMMENTS, {
-    variables: { boardId: router.query.boardId },
+    variables: { boardId: String(router.query.boardId) },
   });
+
+  const onClickUpdate = () => {
+    setIsEdit(true);
+  };
+
+  const [deleteBoardComment] = useMutation(DELETE_BOARD_COMMENT);
 
   const onClickDelete = async (event: MouseEvent<HTMLImageElement>) => {
     const CmtPassword = prompt("비밀번호를 입력하세요.");
     try {
       await deleteBoardComment({
         variables: {
-          password: myPassword,
+          password: CmtPassword,
           boardCommentId: event.currentTarget.id,
         },
         refetchQueries: [
@@ -61,5 +73,14 @@ export default function BoardCommentList() {
     });
   };
 
-  return <BoardCommentListUI data={data} onLoadMore={onLoadMore} />;
+  return (
+    <BoardCommentListUI
+      data={data}
+      onLoadMore={onLoadMore}
+      el={props.el}
+      isEdit={isEdit}
+      onClickUpdate={onClickUpdate}
+      onClickDelete={onClickDelete}
+    />
+  );
 }

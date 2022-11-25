@@ -14,8 +14,7 @@ const Body = styled.div`
 interface ILayoutProps {
   children: JSX.Element;
 }
-
-const IS_HIDDEN = ["/market/login", "/market/join"];
+const IS_HIDDEN = [``];
 
 export default function Layout(props: ILayoutProps) {
   const router = useRouter();

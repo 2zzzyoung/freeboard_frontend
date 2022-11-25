@@ -16,51 +16,18 @@ import {
 import { getDate } from "../../../../commons/libraries/utils";
 import { successModal } from "../../../commons/modal/modal-function";
 import InfiniteScroll from "react-infinite-scroller";
+import BoardCommentList from "./BoardCommentList.container";
 
 export default function BoardCommentListItemUI(
   props: IBoardCommentListUIItemProps
 ) {
-  const router = useRouter();
-  const [isEdit, setIsEdit] = useState(false);
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const [myPassword, setMyPassword] = useState("");
-
-  const [deleteBoardComment] = useMutation<
-    Pick<IMutation, "deleteBoardComment">,
-    IMutationDeleteBoardCommentArgs
-  >(DELETE_BOARD_COMMENT);
-
-  const onClickUpdate = () => {
-    setIsEdit(true);
-  };
-
-  const onClickDelete = async () => {
-    try {
-      await deleteBoardComment({
-        variables: {
-          password: myPassword,
-          boardCommentId: props.el?._id,
-        },
-        refetchQueries: [
-          {
-            query: FETCH_BOARD_COMMENTS,
-            variables: { boardId: router.query.boardId },
-          },
-        ],
-      });
-    } catch (error) {
-      if (error instanceof Error) Modal.error({ content: error.message });
-    }
-    successModal("댓글이 삭제되었습니다.");
-  };
-
   return (
     <>
       <InfiniteScroll pageStart={0} loadMore={props.onLoadMore} hasMore={true}>
         {props.data?.fetchBoardComments.map((el) => {
-          <BoardCommentListUIItem key={el._id} el={el} />;
+          <BoardCommentList key={el._id} el={el} />;
         })}
-        {!isEdit && (
+        {!props.isEdit && (
           <S.ItemWrapper>
             <S.FlexWrapper>
               <S.Avatar src="/writer.png" />
@@ -72,17 +39,23 @@ export default function BoardCommentListItemUI(
                 <S.Contents>{props.el?.contents}</S.Contents>
               </S.MainWrapper>
               <S.OptionWrapper>
-                <S.UpdateIcon src="/cmtEdit.png/" onClick={onClickUpdate} />
-                <S.DeleteIcon src="/cmtDlt.png/" onClick={onClickDelete} />
+                <S.UpdateIcon
+                  src="/cmtEdit.png/"
+                  onClick={props.onClickUpdate}
+                />
+                <S.DeleteIcon
+                  src="/cmtDlt.png/"
+                  onClick={props.onClickDelete}
+                />
               </S.OptionWrapper>
             </S.FlexWrapper>
             <S.DateString>{getDate(props.el?.createdAt)}</S.DateString>
           </S.ItemWrapper>
         )}
-        {isEdit && (
+        {props.isEdit && (
           <BoardCommentWrite
             isEdit={true}
-            setIsEdit={setIsEdit}
+            setIsEdit={props.setIsEdit}
             el={props.el}
           />
         )}

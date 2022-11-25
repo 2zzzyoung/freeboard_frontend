@@ -1,8 +1,10 @@
 import { Tooltip } from "antd";
 import * as S from "./BoardDetail.styles";
 import { getDate } from "../../../../commons/libraries/utils";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 import { IBoardDetailUIProps } from "./BoardDetail.types";
+import BoardCommentWrite from "../../boardComment/write/BoardCommentWrite.container";
+import BoardCommentList from "../../boardComment/list/BoardCommentList.container";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps) {
   return (
@@ -26,9 +28,7 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
                       fontWeight: "400",
                       color: "#bdbdbd",
                     }}
-                  >
-                    {getDate(props.data?.fetchBoard?.createdAt)}
-                  </div>
+                  ></div>
                 </S.WriterInfo>
               </S.NameContainer>
               <S.ImageContainer>
@@ -49,13 +49,16 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
           <S.MiddleWrapper>
             <S.TitleContainer>{props.data?.fetchBoard?.title}</S.TitleContainer>
             <S.ContentsContainer>
-              <S.PicContainer></S.PicContainer>
+              {console.log(props.data?.fetchBoard)}
+              <S.PicContainer
+                src={`http://storage.googleapis.com/${String(
+                  props.data?.fetchBoard?.images
+                )}`}
+              />
 
               <S.Contents>{props.data?.fetchBoard?.contents}</S.Contents>
               <S.VideoContainer
-                url={props.data?.fetchBoard.youtubeUrl}
-                width="486px"
-                height="240px"
+                url={String(props.data?.fetchBoard.youtubeUrl)}
               />
 
               <S.Thumbs>
@@ -76,7 +79,6 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
               </S.Thumbs>
             </S.ContentsContainer>
           </S.MiddleWrapper>
-          {/* <BottomWrapper></BottomWrapper> */}
         </S.MainWrapper>
       </S.Wrapper>
       <S.Wrapper2>
@@ -95,36 +97,13 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
               삭제하기
             </S.Button>
           </S.ButtonContainer>
-          {/* 댓글 파일로 옮기기 */}
-          {/* <S.CommentTitle>
-            <img src="/review.png" style={{ width: "20px", height: "20px" }} />
-            <div style={{ fontSize: "16px", fontWeight: "600" }}>댓글</div>
-          </S.CommentTitle>
-          <S.InputWrapper>
-            <S.WriterInput
-              placeholder="작성자"
-              style={{ paddingLeft: "10px", fontWeight: "500" }}
-            ></S.WriterInput>
-            <S.WriterInput
-              placeholder="비밀번호"
-              style={{ paddingLeft: "10px", fontWeight: "500" }}
-            ></S.WriterInput>
-            <S.Star></S.Star>
-          </S.InputWrapper>
-          <S.CommentContents
-            placeholder="개인정보를 공유 및 요청하거나, 명예훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다."
-            style={{ padding: "0px 0px 100px 15px" }}
-          ></S.CommentContents>
-          <S.D>
-            <S.CommentButton>등록하기</S.CommentButton>
-          </S.D> */}
-
-          {/* <WriterComment>
-            <EditButton></EditButton>
-            <DeleteButton></DeleteButton>
-          </WriterComment> */}
         </S.CommentWrapper>
       </S.Wrapper2>
+      {console.log(props.comments)}
+      <BoardCommentWrite />
+      {props.comments?.fetchBoardComments.map((el: any) => {
+        return <BoardCommentList key={el.id} el={el} />;
+      })}
     </>
   );
 }

@@ -67,6 +67,10 @@ export const ColumnTitle = styled.div`
   text-align: center;
   cursor: pointer;
 `;
+export const TextToken = styled.span`
+  color: ${(props) => (props.isMatched ? "#EDCB67" : "")};
+`;
+
 export const ColumnWriter = styled.div`
   width: 20%;
   text-align: center;

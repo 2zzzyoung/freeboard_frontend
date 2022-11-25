@@ -1,8 +1,8 @@
 import BoardWriteUI from "./BoardWrite.presenter";
-import { CREATE_BOARD, UPDATE_BOARD } from "./BoardWrite.queries";
+import { CREATE_BOARD, UPDATE_BOARD, UPLOAD_FILE } from "./BoardWrite.queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   errorModal,
   successModal,
@@ -12,12 +12,13 @@ import {
   IMutation,
   IMutationCreateBoardArgs,
   IMutationUpdateBoardArgs,
+  IMutationUploadFileArgs,
   IQuery,
   IQueryFetchBoardArgs,
 } from "../../../../commons/types/generated/types";
 import { IBoardWriteProps } from "./BoardWrite.types";
 import { Modal } from "antd";
-import { type } from "os";
+import { Address } from "react-daum-postcode";
 
 export default function BoardWrite(props: IBoardWriteProps) {
   const router = useRouter();
@@ -31,17 +32,25 @@ export default function BoardWrite(props: IBoardWriteProps) {
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
-  const [addressDetail, setAdderessDetail] = useState("");
-  // const [likeCount, setLikeCount] = useState(0);
-  // const [dislikeCount, setDislikeCount] = useState(0);
-  // const [image, setImage] = useState(["", "", ""]);
-  // const [boardAddress, setBoardAddress] = "";
+  const [addressDetail, setAddressDetail] = useState("");
+  const [fileUrls, setFileUrls] = useState("");
 
   const [writerError, setWriterError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
+  const [addressDetailError, setAddressDetailError] = useState("");
+  const [fileUrlsError, setFileUrlsError] = useState("");
   // const [EnrollConfirm, setEnrollConfirm] = useState(false);
+
+  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
+    FETCH_BOARD,
+    {
+      variables: {
+        boardId: router.query.boardId,
+      },
+    }
+  );
 
   const [createBoard] = useMutation<
     Pick<IMutation, "createBoard">,
@@ -51,15 +60,10 @@ export default function BoardWrite(props: IBoardWriteProps) {
     Pick<IMutation, "updateBoard">,
     IMutationUpdateBoardArgs
   >(UPDATE_BOARD);
-
-  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(
-    FETCH_BOARD,
-    {
-      variables: {
-        boardId: router.query._id,
-      },
-    }
-  );
+  const [uploadFile] = useMutation<
+    Pick<IMutation, "uploadFile">,
+    IMutationUploadFileArgs
+  >(UPLOAD_FILE);
 
   const onChangeWriter = (event: ChangeEvent<HTMLInputElement>) => {
     setWriter(event.target.value);
@@ -113,6 +117,16 @@ export default function BoardWrite(props: IBoardWriteProps) {
     setYoutubeUrl(event.target.value);
   };
 
+  const onToggleModal = () => {
+    setIsOpen((prev) => !prev);
+  };
+  const handleComplete = (address: Address) => {
+    console.log(address);
+    setZipcode(address.zonecode);
+    setAddress(address.address);
+    onToggleModal();
+  };
+
   const onChangeAddressDetail = (event: ChangeEvent<HTMLInputElement>) => {
     setAddressDetail(event.target.value);
   };
@@ -125,6 +139,20 @@ export default function BoardWrite(props: IBoardWriteProps) {
     setAddress(data.address);
     setZipcode(data.zonecode);
     setIsOpen((prev) => !prev);
+  };
+
+  const onChangeFile = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    try {
+      const result = await uploadFile({
+        variables: { file },
+      });
+      console.log(result.data?.uploadFile.url);
+      setFileUrls(result.data?.uploadFile.url ?? "");
+    } catch (error) {
+      if (error instanceof Error) Modal.error({ content: error.message });
+    }
   };
 
   const onClickEnroll = async () => {
@@ -150,6 +178,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
               title,
               contents,
               youtubeUrl,
+              images: [fileUrls],
               boardAddress: {
                 zipcode,
                 address,
@@ -190,7 +219,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
       return;
     }
 
-    const updateBoardInput: IUpdateBoardInput = {};
+    const updateBoardInput: any = {};
     if (title) updateBoardInput.title = title;
     if (contents) updateBoardInput.contents = contents;
     if (youtubeUrl) updateBoardInput.youtybeUrl = youtubeUrl;
@@ -211,7 +240,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
           updateBoardInput,
         },
       });
-      void router.push(`/boards/${result.data?.updateBoard._id}`);
+      void router.push(`/boards/${String(result.data?.updateBoard._id)}`);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
@@ -225,16 +254,26 @@ export default function BoardWrite(props: IBoardWriteProps) {
       onChangeTitle={onChangeTitle}
       onChangeContents={onChangeContents}
       onChangeYoutubeUrl={onChangeYoutubeUrl}
+      onToggleModal={onToggleModal}
       onChangeAddressDetail={onChangeAddressDetail}
       onClickAddressSearch={onClickAddressSearch}
       onCompleteAddressSearch={onCompleteAddressSearch}
+      onChangeFile={onChangeFile}
+      addressDetailError={addressDetailError}
+      fileUrlsError={fileUrlsError}
+      handleComplete={handleComplete}
       writerError={writerError}
       passwordError={passwordError}
       titleError={titleError}
       contentsError={contentsError}
       isActive={isActive}
       isEdit={props.isEdit}
+      isOpen={isOpen}
       data={data}
+      zipcode={zipcode}
+      address={address}
+      addressDetail={addressDetail}
+      fileUrls={fileUrls}
     />
   );
 }

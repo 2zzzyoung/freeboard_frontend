@@ -68,6 +68,7 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
           },
         ],
       });
+      successModal("댓글이 등록되었습니다.");
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
@@ -107,6 +108,7 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
         ],
       });
       props.setIsEdit?.(false);
+      successModal("댓글이 수정되었습니다.");
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }

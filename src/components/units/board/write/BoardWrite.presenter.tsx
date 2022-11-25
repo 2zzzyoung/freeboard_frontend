@@ -1,15 +1,13 @@
+import { Modal } from "antd";
+import DaumPostcodeEmbed from "react-daum-postcode";
 import * as S from "./BoardWrite.styles";
 import { IBoardWriteUIProps } from "./BoardWrite.types";
+import { v4 as uuidv4 } from "uuid";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps) {
-  console.log(props.data?.fetchBoard.writer);
+  console.log(props.data?.fetchBoard);
   return (
     <>
-    {props.isOpen && (
-      <S.AddressModal visible={true}>
-        <S.AddressSerachInput onComplete={props.onCompleteAddressSearch} />
-      </S.AddressModal>
-    )}
       <S.Wrapper>
         <S.MainWrapper>
           <S.TitleContainer>
@@ -22,8 +20,8 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
                 type="text"
                 placeholder="이름을 적어주세요."
                 onChange={props.onChangeWriter}
-                defaultValue={props.data?.fetchBoard.writer || ""}
-                readOnly={!!props.data?.fetchBoard.writer}
+                defaultValue={props.data?.fetchBoard.writer ?? ""}
+                disabled={props.isEdit ? true : false}
               ></S.Input1>
               <S.Error>{props.writerError}</S.Error>
             </S.WriterContainer>
@@ -39,6 +37,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           </S.TopInputContainer>
           <S.TitleWrapper>
             <S.Name>제목</S.Name>
+            {console.log(props.data?.fetchBoard)}
             <S.Input2
               type="text"
               placeholder="제목을 작성해주세요."
@@ -50,49 +49,55 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
           <S.MiddleContainer>
             <S.Middle>
               <S.Name>내용</S.Name>
-              <S.Input3
+              <S.BoardContents
                 placeholder="내용을 작성해주세요."
                 onChange={props.onChangeContents}
-                style={{ paddingBottom: "440px" }}
-                defaultValue={props.data?.fetchBoard.contents || ""}
-              ></S.Input3>
+                style={{ height: "440px" }}
+                defaultValue={props.data?.fetchBoard.contents ?? ""}
+              ></S.BoardContents>
               <S.Error>{props.contentsError}</S.Error>
             </S.Middle>
             <S.Middle2>
               <S.Name>주소</S.Name>
-              <S.Input4>
-                <Zipcode placeholder="07250"
+              <S.Zipcode
+                placeholder="07250"
                 readOnly
                 value={
-                  props.zipcode ||
-                  (props.data?fetchBoard.boardAddress?.zipcode ?? "")
+                  props.zipcode || props.data?.fetchBoard.boardAddress?.zipcode
                 }
-                />
-              </S.Input4>
-              <S.ZipBtn onClick={props.onClickAddressSearch}>우편번호 검색</S.ZipBtn>
+              />
+              <S.ZipBtn onClick={props.onClickAddressSearch}>
+                우편번호 검색
+              </S.ZipBtn>
             </S.Middle2>
-            <S.Address1
-            readOnly
-            value={
-              props.address ||
-              (props.data?fetchBoard.boardAddress?.address ?? "")
-            }
-             />
-             <S.Address1
-             onChange={props.onChangeAddressDetail}
-             defaultValue={
-              (props.data?.fetchBoard.boardAddress?.addressDetail ?? "")
-             }
-             />
-            // <S.Address2>
-            //   <S.Input2></S.Input2>
-            // </S.Address2>
+            {/* <S.Address1 /> */}
+            {/* <S.Address1
+              onChange={props.onChangeAddressDetail}
+              defaultValue={
+                props.data?.fetchBoard.boardAddress?.addressDetail ?? ""
+              }
+            /> */}
+            <S.Address2>
+              <S.Input2
+                value={
+                  props.address || props.data?.fetchBoard.boardAddress?.address
+                }
+                disabled
+              />
+              <S.Input2
+                defaultValue={
+                  props.data?.fetchBoard.boardAddress?.addressDetail ?? ""
+                }
+                onChange={props.onChangeAddressDetail}
+              />
+            </S.Address2>
             <S.Youtube>
               <S.Name>유튜브</S.Name>
               <S.Input2
                 type="text"
                 placeholder="링크를 복사해주세요."
                 onChange={props.onChangeYoutubeUrl}
+                defaultValue={props.data?.fetchBoard.youtubeUrl}
               />
             </S.Youtube>
           </S.MiddleContainer>
@@ -100,21 +105,31 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             <S.Pick>
               <S.Name>사진 첨부</S.Name>
               <S.Box>
-                <S.UploadBtn style={{ color: "#4F4F4F" }}>
-                  <p>+</p>
-                  <p>Upload</p>
-                </S.UploadBtn>
-                <S.UploadBtn style={{ color: "#4F4F4F" }}>
-                  <p>+</p>
-                  <p>Upload</p>
-                </S.UploadBtn>
-                <S.UploadBtn style={{ color: "#4F4F4F" }}>
-                  <p>+</p>
-                  <p>Upload</p>
-                </S.UploadBtn>
+                {console.log(props.fileUrls)}
+                {props.fileUrls ? (
+                  <S.ImageBg
+                    src={`http://storage.googleapis.com/${props.fileUrls}`}
+                  />
+                ) : (
+                  <S.UploadBtn
+                    style={{
+                      color: "#4F4F4F",
+                    }}
+                    htmlFor="file01"
+                  >
+                    <p>+</p>
+                    <p>Upload</p>
+                  </S.UploadBtn>
+                )}
               </S.Box>
+              <input
+                type="file"
+                id="file01"
+                style={{ display: "none" }}
+                onChange={props.onChangeFile}
+              />
             </S.Pick>
-            <S.Name>메인 설정</S.Name>
+            {/* <S.Name>메인 설정</S.Name>
             <S.Box2>
               <div>
                 <input
@@ -140,7 +155,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
                 />{" "}
                 사진
               </div>
-            </S.Box2>
+            </S.Box2> */}
           </S.BottomWrapper>
           <S.EnrollBtn
             onClick={props.isEdit ? props.onClickEdit : props.onClickEnroll}
@@ -149,6 +164,15 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
             {props.isEdit ? "수정하기" : "등록하기"}
           </S.EnrollBtn>
         </S.MainWrapper>
+        {props.isOpen && (
+          <Modal
+            open={true}
+            onOk={props.onToggleModal}
+            onCancel={props.onToggleModal}
+          >
+            <DaumPostcodeEmbed onComplete={props.handleComplete} />
+          </Modal>
+        )}
       </S.Wrapper>
     </>
   );

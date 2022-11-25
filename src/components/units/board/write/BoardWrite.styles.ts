@@ -50,7 +50,7 @@ export const WriterContainer = styled.div`
 export const Name = styled.div`
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 15px;
+  /* margin-bottom: 5px; */
 `;
 
 export const PasswordContainer = styled.div``;
@@ -70,6 +70,7 @@ export const Input2 = styled.input`
   width: 996px;
   height: 52px;
   border: 1px solid #bdbdbd;
+  margin-bottom: 5px;
 `;
 
 export const TitleWrapper = styled.div`
@@ -89,16 +90,22 @@ export const Middle = styled.div`
 `;
 
 export const Middle2 = styled.div`
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 `;
 
-export const Input3 = styled.input`
+export const BoardContents = styled.textarea`
   width: 996px;
   height: 480px;
   border: 1px solid #bdbdbd;
 `;
 
 export const Input4 = styled.input`
+  width: 77px;
+  height: 52px;
+  border: 1px solid #bdbdbd;
+`;
+
+export const Zipcode = styled.input`
   width: 77px;
   height: 52px;
   border: 1px solid #bdbdbd;
@@ -141,12 +148,22 @@ export const Pick = styled.div`
   margin-bottom: 40px;
 `;
 
-export const UploadBtn = styled.button`
-  background-color: #dbdbdb;
+export const UploadBtn = styled.label`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 78px;
   height: 78px;
   border: none;
+  background-color: lightgray;
   cursor: pointer;
+`;
+
+export const ImageBg = styled.img`
+  width: 78px;
+  height: 78px;
+  border: 1px solid lightgray;
 `;
 
 export const Box = styled.div`
