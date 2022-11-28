@@ -155,6 +155,12 @@ export default function BoardWrite(props: IBoardWriteProps) {
     }
   };
 
+  useEffect(() => {
+    if (props.data?.fetchBoard.images?.length) {
+      setFileUrls([...props.data?.fetchBoard.images]);
+    }
+  }, [props.data]);
+
   const onClickEnroll = async () => {
     if (!writer) {
       setWriterError("작성자를 입력해주세요.");

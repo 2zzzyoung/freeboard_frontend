@@ -108,6 +108,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
                 {console.log(props.fileUrls)}
                 {props.fileUrls ? (
                   <S.ImageBg
+                    onChange={props.onChangeFile}
                     src={`http://storage.googleapis.com/${props.fileUrls}`}
                   />
                 ) : (
