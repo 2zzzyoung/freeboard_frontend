@@ -1,10 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { MouseEvent, useState } from "react";
-import {
-  IQuery,
-  IQueryFetchBoardCommentsArgs,
-} from "../../../../commons/types/generated/types";
+import { successModal } from "../../../commons/modal/modal-function";
 import BoardCommentListUI from "./BoardCommentList.presenter";
 import {
   DELETE_BOARD_COMMENT,
@@ -22,13 +19,6 @@ export default function BoardCommentList(props) {
   //   return <></>;
   // }
 
-  const { data, fetchMore } = useQuery<
-    Pick<IQuery, "fetchBoardComments">,
-    IQueryFetchBoardCommentsArgs
-  >(FETCH_BOARD_COMMENTS, {
-    variables: { boardId: String(router.query.boardId) },
-  });
-
   const onClickUpdate = () => {
     setIsEdit(true);
   };
@@ -38,6 +28,7 @@ export default function BoardCommentList(props) {
   const onClickDelete = async (event: MouseEvent<HTMLImageElement>) => {
     const CmtPassword = prompt("비밀번호를 입력하세요.");
     try {
+      console.log(event.currentTarget.id);
       await deleteBoardComment({
         variables: {
           password: CmtPassword,
@@ -46,37 +37,19 @@ export default function BoardCommentList(props) {
         refetchQueries: [
           {
             query: FETCH_BOARD_COMMENTS,
-            variables: { boardId: router.query.boardId },
+            variables: { boardId: router.query.boardId, page: 1 },
           },
         ],
       });
+      successModal("댓글이 삭제 되었습니다.");
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      alert("댓글 삭제 실패");
+      // if (error instanceof Error) alert(error.message);
     }
-  };
-
-  const onLoadMore = () => {
-    if (!data) return;
-
-    void fetchMore({
-      variables: { page: Math.ceil(data?.fetchBoardComments.length / 10) + 1 },
-      updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult?.fetchBoardComments)
-          return { fetchBoardComments: [...prev.fetchBoardComments] };
-        return {
-          fetchBoardComments: [
-            ...prev.fetchBoardComments,
-            ...fetchMoreResult.fetchBoardComments,
-          ],
-        };
-      },
-    });
   };
 
   return (
     <BoardCommentListUI
-      data={data}
-      onLoadMore={onLoadMore}
       el={props.el}
       isEdit={isEdit}
       onClickUpdate={onClickUpdate}

@@ -43,7 +43,7 @@ export default function BoardListUI(props: IBoardListUIProps) {
                 ))}
             </S.ColumnTitle>
             <S.ColumnWriter>{el.writer}</S.ColumnWriter>
-            <S.ColumnDate>{getDate(el.createdAt)}</S.ColumnDate>
+            <S.ColumnDate>{getDate(new Date(el.createdAt))}</S.ColumnDate>
           </S.Row>
         ))}
       </S.ListWrapper>

@@ -14,5 +14,9 @@ export interface IBoardCommentListUIProps {
 }
 
 export interface IBoardCommentListUIItemProps {
-  el: IBoardComment;
+  el: any;
+  onClickUpdate: () => {};
+  onClickDelete: () => {};
+  isEdit: boolean;
+  setIsEdit: any;
 }

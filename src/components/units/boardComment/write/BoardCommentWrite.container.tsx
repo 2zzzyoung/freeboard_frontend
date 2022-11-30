@@ -64,7 +64,7 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
         refetchQueries: [
           {
             query: FETCH_BOARD_COMMENTS,
-            variables: { boardId: router.query.boardId },
+            variables: { boardId: router.query.boardId, page: 1 },
           },
         ],
       });

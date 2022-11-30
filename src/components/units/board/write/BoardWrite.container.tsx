@@ -214,7 +214,8 @@ export default function BoardWrite(props: IBoardWriteProps) {
       !youtubeUrl &&
       !address &&
       !addressDetail &&
-      !zipcode
+      !zipcode &&
+      !fileUrls
     ) {
       successModal("수정된 내용이 없습니다.");
       return;
@@ -229,6 +230,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
     if (title) updateBoardInput.title = title;
     if (contents) updateBoardInput.contents = contents;
     if (youtubeUrl) updateBoardInput.youtybeUrl = youtubeUrl;
+    if (fileUrls) updateBoardInput.images = [fileUrls];
     if (zipcode || address || addressDetail) {
       updateBoardInput.boardAddress = {};
       if (zipcode) updateBoardInput.boardAddress.zipcode = zipcode;

@@ -107,10 +107,12 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
               <S.Box>
                 {console.log(props.fileUrls)}
                 {props.fileUrls ? (
-                  <S.ImageBg
-                    onChange={props.onChangeFile}
-                    src={`http://storage.googleapis.com/${props.fileUrls}`}
-                  />
+                  <label htmlFor="file01">
+                    <S.ImageBg
+                      onChange={props.onChangeFile}
+                      src={`http://storage.googleapis.com/${props.fileUrls}`}
+                    />
+                  </label>
                 ) : (
                   <S.UploadBtn
                     style={{

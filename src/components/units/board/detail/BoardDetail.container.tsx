@@ -19,6 +19,7 @@ import {
   IMutationDislikeBoardArgs,
   IQuery,
   IQueryFetchBoardArgs,
+  IQueryFetchBoardCommentsArgs,
 } from "../../../../commons/types/generated/types";
 import { useEffect } from "react";
 
@@ -51,6 +52,13 @@ export default function BoardDetail() {
   useEffect(() => {
     void refetch();
   }, [data]);
+
+  const { data: commentData, fetchMore } = useQuery<
+    Pick<IQuery, "fetchBoardComments">,
+    IQueryFetchBoardCommentsArgs
+  >(FETCH_BOARD_COMMENTS, {
+    variables: { boardId: String(router.query.boardId), page: 1 },
+  });
 
   const onClickList = () => {
     void router.push("/boards");
@@ -136,6 +144,27 @@ export default function BoardDetail() {
   // const onClickCommentEdit = () => {};
   // const onClickCommentDelete = () => {};
 
+  const onLoadMore = () => {
+    if (!data) return;
+
+    console.log("asd");
+
+    void fetchMore({
+      variables: {
+        page: Math.ceil(commentData?.fetchBoardComments.length / 10) + 1,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult?.fetchBoardComments)
+          return { fetchBoardComments: [...prev.fetchBoardComments] };
+        return {
+          fetchBoardComments: [
+            ...prev.fetchBoardComments,
+            ...fetchMoreResult.fetchBoardComments,
+          ],
+        };
+      },
+    });
+  };
   return (
     <BoardDetailUI
       onClickList={onClickList}
@@ -145,6 +174,8 @@ export default function BoardDetail() {
       onClickDislikeBoard={onClickDislikeBoard}
       data={data}
       comments={comments}
+      onLoadMore={onLoadMore}
+      commentData={commentData}
     />
   );
 }

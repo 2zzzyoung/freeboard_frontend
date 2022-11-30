@@ -5,6 +5,7 @@ import { getDate } from "../../../../commons/libraries/utils";
 import { IBoardDetailUIProps } from "./BoardDetail.types";
 import BoardCommentWrite from "../../boardComment/write/BoardCommentWrite.container";
 import BoardCommentList from "../../boardComment/list/BoardCommentList.container";
+import InfiniteScroll from "react-infinite-scroller";
 
 export default function BoardDetailUI(props: IBoardDetailUIProps) {
   return (
@@ -49,7 +50,6 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
           <S.MiddleWrapper>
             <S.TitleContainer>{props.data?.fetchBoard?.title}</S.TitleContainer>
             <S.ContentsContainer>
-              {console.log(props.data?.fetchBoard)}
               <S.PicContainer
                 src={`http://storage.googleapis.com/${String(
                   props.data?.fetchBoard?.images
@@ -99,11 +99,16 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
           </S.ButtonContainer>
         </S.CommentWrapper>
       </S.Wrapper2>
-      {console.log(props.comments)}
       <BoardCommentWrite />
-      {props.comments?.fetchBoardComments.map((el: any) => {
-        return <BoardCommentList key={el.id} el={el} />;
-      })}
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={props.onLoadMore}
+        hasMore={true || false}
+      >
+        {props.comments?.fetchBoardComments.map((el: any) => {
+          return <BoardCommentList key={el.id} el={el} />;
+        })}
+      </InfiniteScroll>
     </>
   );
 }
