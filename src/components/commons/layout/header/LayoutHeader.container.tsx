@@ -8,9 +8,21 @@ export default function LayoutHeader() {
     void router.push("/boards");
   };
 
+  const onClickMoveToLogin = () => {
+    void router.push("login");
+  };
+
+  const onClickMoveToJoin = () => {
+    void router.push("/join");
+  };
+
   return (
     <>
-      <LayoutHeaderUI onClickLogo={onClickLogo} />
+      <LayoutHeaderUI
+        onClickLogo={onClickLogo}
+        onClickMoveToLogin={onClickMoveToLogin}
+        onClickMoveToJoin={onClickMoveToJoin}
+      />
     </>
   );
 }

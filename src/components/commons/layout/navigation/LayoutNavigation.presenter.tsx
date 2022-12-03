@@ -5,6 +5,7 @@ import { MenuItem, Wrapper } from "./LayoutNavigation.styles";
 const NAVIGATION_MENUS = [
   { name: "중고마켓", page: "/" },
   { name: "자유게시판", page: "/boards" },
+  { name: "인테리어", page: "/" },
   { name: "마이페이지", page: "/" },
 ];
 

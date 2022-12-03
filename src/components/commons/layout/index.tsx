@@ -19,6 +19,7 @@ const IS_HIDDEN = [``];
 export default function Layout(props: ILayoutProps) {
   const router = useRouter();
   const isHidden = IS_HIDDEN.includes(router.asPath);
+  console.log(router);
   return (
     <>
       <LayoutHeader />
