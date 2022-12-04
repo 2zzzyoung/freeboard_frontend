@@ -21,5 +21,6 @@ module.exports = {
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "no-unneeded-ternary": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
   },
 };
