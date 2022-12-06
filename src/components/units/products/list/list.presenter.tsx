@@ -8,6 +8,7 @@ export default function ProductListUI(props: IProductListUIProps) {
       <S.Container>
         <S.TitleContainer>
           <S.Title>상품목록</S.Title>
+          <S.Register>상품 등록</S.Register>
         </S.TitleContainer>
         <S.ItemWrapper>
           {props.data?.fetchUseditems.map((el) => {
