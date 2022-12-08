@@ -25,6 +25,7 @@ export default function ApolloSetting(props: IApolloSettingProps) {
   const client = new ApolloClient({
     link: ApolloLink.from([uploadLink as inKnown as ApolloLink]),
     cache: GLOBAL_STATE,
+    connectToDevTools: true,
   });
 
   // prettier-ignore
