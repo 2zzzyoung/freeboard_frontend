@@ -9,7 +9,7 @@ export default function LayoutHeader() {
   };
 
   const onClickMoveToLogin = () => {
-    void router.push("login");
+    void router.push("/login");
   };
 
   const onClickMoveToJoin = () => {

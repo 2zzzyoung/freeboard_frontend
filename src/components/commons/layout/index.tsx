@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
 const Body = styled.div`
-  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;

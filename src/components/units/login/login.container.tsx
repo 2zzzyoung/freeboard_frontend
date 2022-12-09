@@ -32,11 +32,6 @@ const LoginWrite = () => {
     setPassword(event.target.value);
   };
 
-  const onClickJoin = async (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    await router.push("/market/join");
-  };
-
   const onClickLogin = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
@@ -53,7 +48,7 @@ const LoginWrite = () => {
 
         setAccessToken(String(accessToken));
         successModal("로그인되었습니다.");
-        void router.push("/boards");
+        void router.push("/products/list");
         // console.log(accessToken);
 
         //     if (!accessToken) {
@@ -75,7 +70,6 @@ const LoginWrite = () => {
       onChangeEmail={onChangeEmail}
       onChangePassword={onChangePassword}
       onClickLogin={onClickLogin}
-      onClickJoin={onClickJoin}
     />
   );
 };

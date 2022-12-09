@@ -26,7 +26,7 @@ const LoginWriteUI = ({
           onChange={onChangePassword}
         ></input>
         <br></br>
-        <S.LoginBtn onClick={onClickLogin}>회원 로그인</S.LoginBtn>
+        <S.LoginBtn onClick={onClickLogin}>로그인</S.LoginBtn>
         <br></br>
         <S.UtilMenu>
           <S.FindId>아이디 찾기</S.FindId>

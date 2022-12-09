@@ -13,8 +13,8 @@ export default function LayoutNavigation() {
   //   void router.push("/boards");
   // };
 
-  // const onClickMenuMarket = () => {
-  //   void router.push("/market");
+  // const onClickMenuProductList = () => {
+  //   void router.push("/products/list");
   // };
 
   // const onClickMenuMypage = () => {

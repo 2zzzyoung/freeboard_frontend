@@ -32,10 +32,12 @@ export const Register = styled.button`
   color: white;
   border-radius: 8px;
   border: none;
+  cursor: pointer;
 `;
 
 export const ItemWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 60px 1.25%;
+  cursor: pointer;
 `;

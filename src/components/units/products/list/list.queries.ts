@@ -8,6 +8,10 @@ export const FETCH_USED_ITEMS = gql`
       price
       images
       pickedCount
+      buyer {
+        _id
+        name
+      }
     }
   }
 `;
