@@ -27,7 +27,7 @@ export default function LayoutHeader() {
 
   const [pointCharge] = useMutation(POINT_CHARGE);
 
-  const onClickPointCharge = (data) => {
+  const onClickPointCharge = (data: any) => {
     const IMP = window.IMP; // 생략 가능
     IMP.init("imp49910675"); // Example: imp00000000
 
@@ -43,7 +43,7 @@ export default function LayoutHeader() {
         buyer_name: "테스트",
         buyer_tel: "010-1234-1234",
       },
-      async (rsp) => {
+      async (rsp: any) => {
         // callback
 
         if (rsp.success) {
