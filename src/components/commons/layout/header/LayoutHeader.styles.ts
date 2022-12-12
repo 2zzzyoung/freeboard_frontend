@@ -26,3 +26,9 @@ export const InnerButton = styled.span`
   color: grey;
   cursor: pointer;
 `;
+
+export const PointText = styled.p`
+  font-size: 18px;
+  font-weight: 500;
+  color: red;
+`;

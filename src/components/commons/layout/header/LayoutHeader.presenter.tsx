@@ -2,6 +2,7 @@ import {
   InnerButton,
   InnerLogo,
   InnerWrapper,
+  PointText,
   Wrapper,
 } from "./LayoutHeader.styles";
 import { ShoppingCartOutlined } from "@ant-design/icons";
@@ -19,9 +20,17 @@ export default function LayoutHeaderUI(props: any) {
         </InnerLogo>
         <div>
           {accessToken ? (
-            <InnerButton onClick={props.onClickMoveToJoin}>
-              마이페이지
-            </InnerButton>
+            <>
+              <InnerButton style={{ cursor: "default" }}>
+                {props.userData?.fetchUserLoggedIn.userPoint.amount}포인트
+              </InnerButton>
+              <InnerButton onClick={props.onClickPointCharge}>
+                포인트 충전
+              </InnerButton>
+              <InnerButton onClick={props.onClickMoveToJoin}>
+                마이페이지
+              </InnerButton>
+            </>
           ) : (
             <InnerButton onClick={props.onClickMoveToJoin}>
               회원가입
