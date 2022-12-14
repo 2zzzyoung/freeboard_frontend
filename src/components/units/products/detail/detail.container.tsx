@@ -8,7 +8,11 @@ import {
 } from "../../../../commons/types/generated/types";
 import { errorModal } from "../../../commons/modal/modal-function";
 import ProductDetailUI from "./detail.presenter";
-import { DELETE_USED_ITEM, FETCH_USED_ITEM } from "./detail.queries";
+import {
+  DELETE_USED_ITEM,
+  FETCH_USED_ITEM,
+  PRODUCT_BUY,
+} from "./detail.queries";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -25,6 +29,23 @@ export default function ProductDetail() {
     Pick<IMutation, "deleteUseditem">,
     IMutationDeleteUseditemArgs
   >(DELETE_USED_ITEM);
+
+  const [productBuy] = useMutation(PRODUCT_BUY);
+
+  const onClickProductBuy = async () => {
+    await productBuy({
+      variables: {
+        useritemId: router.query.productId,
+      },
+      update(cache) {
+        cache.modify({
+          fields: () => {},
+        });
+      },
+    });
+
+    alert("구매가 완료되었습니다.");
+  };
 
   //   console.log(data?.fetchUseditem.useditemAddress?.lat);
   // useEffect(() => {
@@ -68,6 +89,7 @@ export default function ProductDetail() {
       data={data}
       onClickDelete={onClickDelete}
       onClickMoveToEdit={onClickMoveToEdit}
+      onClickProductBuy={onClickProductBuy}
     />
   );
 }

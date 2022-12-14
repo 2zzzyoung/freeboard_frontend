@@ -24,6 +24,9 @@ export default function LayoutHeader() {
   const onClickMoveToJoin = () => {
     void router.push("/join");
   };
+  const onClickMoveToMypage = () => {
+    void router.push("/mypage");
+  };
 
   const [pointCharge] = useMutation(POINT_CHARGE);
 
@@ -87,6 +90,7 @@ export default function LayoutHeader() {
         onClickMoveToLogin={onClickMoveToLogin}
         onClickMoveToJoin={onClickMoveToJoin}
         onClickPointCharge={onClickPointCharge}
+        onClickMoveToMypage={onClickMoveToMypage}
         userData={userData}
       />
     </>

@@ -27,7 +27,7 @@ export default function LayoutHeaderUI(props: any) {
               <InnerButton onClick={props.onClickPointCharge}>
                 포인트 충전
               </InnerButton>
-              <InnerButton onClick={props.onClickMoveToJoin}>
+              <InnerButton onClick={props.onClickMoveToMypage}>
                 마이페이지
               </InnerButton>
             </>

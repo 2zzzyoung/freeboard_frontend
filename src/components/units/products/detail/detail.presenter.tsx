@@ -56,19 +56,22 @@ export default function ProductDetailUI(props: IProductDetailUIProps) {
 
               <S.TextContentsWrapper>
                 <S.TextStyle>상품정보:</S.TextStyle>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(
-                      String(props.data?.fetchUseditem.contents)
-                    ),
-                  }}
-                ></div>
+                {process.browser && (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        String(props.data?.fetchUseditem.contents)
+                      ),
+                    }}
+                  ></div>
+                )}
               </S.TextContentsWrapper>
             </S.TitleContentsWrapper>
             <S.TextContentsWrapper>
               <S.TextStyle>주소:</S.TextStyle>
               <div>{props.data?.fetchUseditem.useditemAddress?.address}</div>
             </S.TextContentsWrapper>
+            <button onClick={props.onClickProductBuy}>구매하기</button>
           </S.TextWrapper>
         </S.ImgContentsWrapper>
 

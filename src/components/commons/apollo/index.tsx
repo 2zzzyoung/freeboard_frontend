@@ -7,7 +7,6 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
-import { gql, GraphQLClient } from "graphql-request";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { getAccessToken } from "../../../commons/libraries/getAccessToken";
@@ -59,8 +58,11 @@ export default function ApolloSetting(props: IApolloSettingProps) {
     // 2. 새로운 방식(refreshToken 이후)
     void getAccessToken().then((newAccessToken) => {
       setAccessToken(newAccessToken);
+      console.log(newAccessToken);
     });
   }, []);
+
+  console.log(accessToken);
 
   const errorLink = onError(({ graphQLErrors, operation, forward }) => {
     // 1-1. 에러를 캐치
@@ -72,6 +74,7 @@ export default function ApolloSetting(props: IApolloSettingProps) {
             // 2-1. refreshToken으로 accessToken을 재발급 받기
             getAccessToken().then((newAccessToken) => {
               // 2-2. 재발급 받은 accessToken 저장하기
+
               setAccessToken(newAccessToken);
 
               // 3-1. 재발급 받은 accessToken으로 방금 실패한 쿼리의 정보 수정하기

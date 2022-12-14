@@ -1,33 +1,62 @@
-export default function MyPageUI() {
+import ItemBox from "../../commons/ItemBox";
+import * as S from "./mypage.styles";
+
+export default function MyPageUI(props) {
   return (
-    <MyPageWrapper>
-      <MyInfoContainer>
-        <MyInfo>
-          <MyInfoTop>
-            <MyProfile>
-              <MyImg></MyImg>
-              <MyName>ㅇㅇㅇ</MyName>
-              <ProfilePicBtn>사진등록</ProfilePicBtn>
-            </MyProfile>
-          </MyInfoTop>
-          <MyInfoMiddle>
-            <PointContainer>
-              <PointCharge>
-                <MyPoint>나의 포인트</MyPoint>
-                <PointChargeBtn>포인트충전</PointChargeBtn>
-              </PointCharge>
-            </PointContainer>
-            <ProductContainer>
-              <SellProduct>판매중인 상품</SellProduct>
-              <BuyProduct>구매한 상품</BuyProduct>
-              <PickProduct>찜한 상품</PickProduct>
-            </ProductContainer>
-          </MyInfoMiddle>
-          <MyInfoBottom>
-            <MyPageBtn>등록</MyPageBtn>
-          </MyInfoBottom>
-        </MyInfo>
-      </MyInfoContainer>
-    </MyPageWrapper>
+    <S.MyPageWrapper>
+      <S.Container>
+        <S.MyInfo>
+          <S.MyImg></S.MyImg>
+          <S.MyNicName>{props.userData?.fetchUserLoggedIn.name}</S.MyNicName>
+          <S.MyPoint>
+            {props.userData?.fetchUserLoggedIn.userPoint.amount} P
+          </S.MyPoint>
+        </S.MyInfo>
+        <S.TabMenuList>
+          <S.TabMenu onClick={props.onClickToBuy}>구매 리스트</S.TabMenu>
+          <S.TabMenu onClick={props.onClickToSold}>판매 리스트</S.TabMenu>
+          <S.TabMenu onClick={props.onClickToPick}>찜한 리스트</S.TabMenu>
+        </S.TabMenuList>
+        {props.boughtList && (
+          <S.ItemWrapper>
+            {props.boughtData?.fetchUseditemsIBought.map((el) => {
+              return (
+                <ItemBox
+                  el={el}
+                  key={el._id}
+                  onClick={props.onClickMoveDetail}
+                />
+              );
+            })}
+          </S.ItemWrapper>
+        )}
+        {props.soldList && (
+          <S.ItemWrapper>
+            {props.soldData?.fetchUseditemsISold.map((el) => {
+              return (
+                <ItemBox
+                  el={el}
+                  key={el._id}
+                  onClick={props.onClickMoveDetail}
+                />
+              );
+            })}
+          </S.ItemWrapper>
+        )}
+        {props.pickedList && (
+          <S.ItemWrapper>
+            {props.pickedData?.fetchUseditemsIPicked.map((el) => {
+              return (
+                <ItemBox
+                  el={el}
+                  key={el._id}
+                  onClick={props.onClickMoveDetail}
+                />
+              );
+            })}
+          </S.ItemWrapper>
+        )}
+      </S.Container>
+    </S.MyPageWrapper>
   );
 }
