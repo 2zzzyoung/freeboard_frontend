@@ -41,3 +41,36 @@ export const ItemWrapper = styled.div`
   gap: 60px 1.25%;
   cursor: pointer;
 `;
+
+export const LookProductList = styled.div`
+  width: 150px;
+  border: 1px solid #111;
+  padding: 30px 10px;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20px;
+  background-color: #fff;
+`;
+
+export const LookProductListTitle = styled.h3`
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
+  text-align: center;
+`;
+
+export const LookProductImgBox = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const LookProductImg = styled.div`
+  width: 100px;
+  height: 100px;
+  background-position: center;
+  background-size: cover;
+  margin: 0 auto;
+`;

@@ -9,3 +9,8 @@ export const accessTokenState = atom({
   key: "accessTokenState",
   default: "",
 });
+
+export const refetch = atom({
+  key: "refetch",
+  default: 0,
+});

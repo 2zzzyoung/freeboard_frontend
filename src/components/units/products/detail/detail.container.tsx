@@ -1,11 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 import {
+  IBoard,
   IMutation,
   IMutationDeleteUseditemArgs,
   IQuery,
   IQueryFetchUseditemArgs,
 } from "../../../../commons/types/generated/types";
+import { refetch } from "../../../../store";
 import { errorModal } from "../../../commons/modal/modal-function";
 import ProductDetailUI from "./detail.presenter";
 import {
@@ -13,8 +16,11 @@ import {
   FETCH_USED_ITEM,
   PRODUCT_BUY,
 } from "./detail.queries";
+import { IBaskets } from "./detail.types";
 
 export default function ProductDetail() {
+  const [, setRefetchNum] = useRecoilState(refetch);
+
   const router = useRouter();
 
   const { data } = useQuery<
@@ -45,6 +51,30 @@ export default function ProductDetail() {
     });
 
     alert("구매가 완료되었습니다.");
+  };
+
+  const onClickBasket = (basket: IBoard) => () => {
+    console.log(basket);
+
+    // 1. 기존 장바구니 가져오기
+    const baskets: IBaskets = JSON.parse(
+      localStorage.getItem("baskets") ?? "[]"
+    );
+
+    // 2. 이미 담겼는지 확인하기
+    const temp = baskets.filter((el) => el._id === basket._id);
+    if (temp.length === 1) {
+      alert("이미 담으신 물품입니다!!!");
+      return;
+    }
+
+    // 3. 해당 장바구니에 담기
+    const { __typename, ...newBasket } = basket;
+    console.log(newBasket);
+    baskets.push(newBasket);
+    localStorage.setItem("baskets", JSON.stringify(baskets));
+    alert("장바구니에 담겼습니다.");
+    setRefetchNum((prev) => prev + 1);
   };
 
   //   console.log(data?.fetchUseditem.useditemAddress?.lat);
@@ -90,6 +120,7 @@ export default function ProductDetail() {
       onClickDelete={onClickDelete}
       onClickMoveToEdit={onClickMoveToEdit}
       onClickProductBuy={onClickProductBuy}
+      onClickBasket={onClickBasket}
     />
   );
 }

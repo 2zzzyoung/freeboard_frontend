@@ -2,8 +2,13 @@ import { useMutation, useQuery } from "@apollo/client";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { IQuery } from "../../../../commons/types/generated/types";
+import { successModal } from "../../modal/modal-function";
 import LayoutHeaderUI from "./LayoutHeader.presenter";
-import { FETCH_USER_LOGGED_IN, POINT_CHARGE } from "./LayoutHeader.queries";
+import {
+  FETCH_USER_LOGGED_IN,
+  LOGOUT_USER,
+  POINT_CHARGE,
+} from "./LayoutHeader.queries";
 
 export default function LayoutHeader() {
   const router = useRouter();
@@ -11,7 +16,7 @@ export default function LayoutHeader() {
   const { data: userData } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
 
-  console.log(userData);
+  const [logoutUser] = useMutation(LOGOUT_USER);
 
   const onClickLogo = () => {
     void router.push("/boards");
@@ -26,6 +31,12 @@ export default function LayoutHeader() {
   };
   const onClickMoveToMypage = () => {
     void router.push("/mypage");
+  };
+
+  const onClickLogout = async () => {
+    await logoutUser();
+    router.reload();
+    successModal("로그아웃 되었습니다.");
   };
 
   const [pointCharge] = useMutation(POINT_CHARGE);
@@ -89,6 +100,7 @@ export default function LayoutHeader() {
         onClickLogo={onClickLogo}
         onClickMoveToLogin={onClickMoveToLogin}
         onClickMoveToJoin={onClickMoveToJoin}
+        onClickLogout={onClickLogout}
         onClickPointCharge={onClickPointCharge}
         onClickMoveToMypage={onClickMoveToMypage}
         userData={userData}

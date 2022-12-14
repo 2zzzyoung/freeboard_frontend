@@ -72,6 +72,9 @@ export default function ProductDetailUI(props: IProductDetailUIProps) {
               <div>{props.data?.fetchUseditem.useditemAddress?.address}</div>
             </S.TextContentsWrapper>
             <button onClick={props.onClickProductBuy}>구매하기</button>
+            <button onClick={props.onClickBasket(props.data?.fetchUseditem)}>
+              장바구니
+            </button>
           </S.TextWrapper>
         </S.ImgContentsWrapper>
 

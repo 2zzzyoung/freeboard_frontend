@@ -1,4 +1,5 @@
 import {
+  BasketNum,
   InnerButton,
   InnerLogo,
   InnerWrapper,
@@ -6,11 +7,21 @@ import {
   Wrapper,
 } from "./LayoutHeader.styles";
 import { ShoppingCartOutlined } from "@ant-design/icons";
-import { accessTokenState } from "../../../../store";
+import { accessTokenState, refetch } from "../../../../store";
 import { useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 
 export default function LayoutHeaderUI(props: any) {
   const [accessToken] = useRecoilState(accessTokenState);
+  const [basketNum, setBasketNum] = useState(0);
+  const [refetchNum] = useRecoilState(refetch);
+
+  useEffect(() => {
+    const basketProductData = JSON.parse(localStorage.getItem("baskets"));
+    setBasketNum(basketProductData?.length);
+
+    console.log(basketProductData);
+  }, [refetchNum]);
 
   return (
     <Wrapper>
@@ -37,9 +48,7 @@ export default function LayoutHeaderUI(props: any) {
             </InnerButton>
           )}
           {accessToken ? (
-            <InnerButton onClick={props.onClickMoveToLogin}>
-              로그아웃
-            </InnerButton>
+            <InnerButton onClick={props.onClickLogout}>로그아웃</InnerButton>
           ) : (
             <InnerButton onClick={props.onClickMoveToLogin}>로그인</InnerButton>
           )}
@@ -47,6 +56,7 @@ export default function LayoutHeaderUI(props: any) {
           <InnerButton>최근 본 상품</InnerButton>
           <InnerButton>
             <ShoppingCartOutlined />
+            <BasketNum>{basketNum}</BasketNum>
           </InnerButton>
           <InnerButton>고객센터</InnerButton>
         </div>
