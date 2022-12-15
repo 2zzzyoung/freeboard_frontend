@@ -39,18 +39,23 @@ export default function ProductDetail() {
   const [productBuy] = useMutation(PRODUCT_BUY);
 
   const onClickProductBuy = async () => {
-    await productBuy({
-      variables: {
-        useritemId: router.query.productId,
-      },
-      update(cache) {
-        cache.modify({
-          fields: () => {},
-        });
-      },
-    });
+    try {
+      await productBuy({
+        variables: {
+          useritemId: router.query.productId,
+        },
+        update(cache) {
+          cache.modify({
+            fields: () => {},
+          });
+        },
+      });
 
-    alert("구매가 완료되었습니다.");
+      alert("구매가 완료되었습니다.");
+    } catch (error) {
+      errorModal("로그인을 해주세요.");
+      void router.push("/login");
+    }
   };
 
   const onClickBasket = (basket: IBoard) => () => {
@@ -92,9 +97,9 @@ export default function ProductDetail() {
   //   console.log(setArr);
   // }, []);
 
-  const onClickDelete = () => {
+  const onClickDelete = async () => {
     try {
-      void deleteUsedItem({
+      await deleteUsedItem({
         variables: { useditemId: String(router.query.productId) },
         update(cache) {
           cache.modify({
