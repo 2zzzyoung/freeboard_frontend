@@ -18,8 +18,17 @@ export default function MyPage() {
     useQuery<Pick<IQuery, "fetchUseditemsIBought">>(BOUGHT_PRODUCT);
   const { data: soldData } =
     useQuery<Pick<IQuery, "fetchUseditemsISold">>(SOLD_PRODUCT);
-  const { data: pickedData } =
-    useQuery<Pick<IQuery, "fetchUseditemsIPicked">>(PICKED_PRODUCT);
+  const { data: pickedData } = useQuery<Pick<IQuery, "fetchUseditemsIPicked">>(
+    PICKED_PRODUCT,
+    {
+      variables: {
+        page: 1,
+        search: "",
+      },
+    }
+  );
+
+  console.log(pickedData);
 
   const { data: userData } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);

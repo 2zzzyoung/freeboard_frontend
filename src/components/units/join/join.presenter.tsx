@@ -90,7 +90,7 @@ const JoinWriteUI = (props: any) => {
                   marginTop: "15px",
                 }}
               >
-                비밀번호 확인
+                비밀번호 확인<span style={{ color: "red" }}>*</span>
               </div>
               <S.InputBox onChange={props.onChangePassword2} />
             </span>

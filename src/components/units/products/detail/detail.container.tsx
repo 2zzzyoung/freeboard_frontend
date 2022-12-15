@@ -9,12 +9,16 @@ import {
   IQueryFetchUseditemArgs,
 } from "../../../../commons/types/generated/types";
 import { refetch } from "../../../../store";
-import { errorModal } from "../../../commons/modal/modal-function";
+import {
+  errorModal,
+  successModal,
+} from "../../../commons/modal/modal-function";
 import ProductDetailUI from "./detail.presenter";
 import {
   DELETE_USED_ITEM,
   FETCH_USED_ITEM,
   PRODUCT_BUY,
+  TOGGLE_USED_ITEM_PICK,
 } from "./detail.queries";
 import { IBaskets } from "./detail.types";
 
@@ -38,6 +42,8 @@ export default function ProductDetail() {
 
   const [productBuy] = useMutation(PRODUCT_BUY);
 
+  const [productPick] = useMutation(TOGGLE_USED_ITEM_PICK);
+
   const onClickProductBuy = async () => {
     try {
       await productBuy({
@@ -51,10 +57,11 @@ export default function ProductDetail() {
         },
       });
 
-      alert("구매가 완료되었습니다.");
+      successModal("구매가 완료되었습니다.");
+      void router.push("/mypage");
     } catch (error) {
-      errorModal("로그인을 해주세요.");
-      void router.push("/login");
+      if (error instanceof Error) errorModal(error.message);
+      void router.push("/products/list");
     }
   };
 
@@ -80,6 +87,26 @@ export default function ProductDetail() {
     localStorage.setItem("baskets", JSON.stringify(baskets));
     alert("장바구니에 담겼습니다.");
     setRefetchNum((prev) => prev + 1);
+  };
+
+  const onClickPicked = async () => {
+    try {
+      await productPick({
+        variables: {
+          useditemId: router.query.productId,
+        },
+        update(cache) {
+          cache.modify({
+            fields: () => {},
+          });
+        },
+      });
+      successModal("찜이 완료되었습니다.");
+      void router.push("/mypage");
+    } catch (error) {
+      if (error instanceof Error) errorModal(error.message);
+      void router.push("/products/list");
+    }
   };
 
   //   console.log(data?.fetchUseditem.useditemAddress?.lat);
@@ -126,6 +153,7 @@ export default function ProductDetail() {
       onClickMoveToEdit={onClickMoveToEdit}
       onClickProductBuy={onClickProductBuy}
       onClickBasket={onClickBasket}
+      onClickPicked={onClickPicked}
     />
   );
 }

@@ -14,6 +14,7 @@ export default function JoinWrite() {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [name, setName] = useState("");
+  const [picture, setPicture] = useState("");
 
   const router = useRouter();
 

@@ -75,6 +75,7 @@ export default function ProductDetailUI(props: IProductDetailUIProps) {
             <button onClick={props.onClickBasket(props.data?.fetchUseditem)}>
               장바구니
             </button>
+            <button onClick={props.onClickPicked}>찜하기</button>
           </S.TextWrapper>
         </S.ImgContentsWrapper>
 
