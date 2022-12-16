@@ -28,8 +28,6 @@ export default function MyPage() {
     }
   );
 
-  console.log(pickedData);
-
   const { data: userData } =
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
 

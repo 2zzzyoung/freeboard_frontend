@@ -2,7 +2,6 @@ import * as S from "./list.styles";
 import ItemBox from "../../../commons/ItemBox";
 import { IProductListUIProps } from "./list.types";
 import InfiniteScroll from "react-infinite-scroller";
-import { url } from "inspector";
 
 export default function ProductListUI(props: IProductListUIProps) {
   return (
@@ -14,7 +13,7 @@ export default function ProductListUI(props: IProductListUIProps) {
         </S.TitleContainer>
         <InfiniteScroll
           pageStart={0}
-          loadMore={props.infiniteFun}
+          loadMore={props.infiniteFunc}
           hasMore={true || false}
         >
           <S.ItemWrapper>

@@ -26,11 +26,14 @@ export const Title = styled.h2`
 `;
 
 export const Register = styled.button`
-  width: 80px;
-  height: 40px;
-  background-color: #653f2a;
+  /* width: 80px;
+  height: 40px; */
+  padding: 10px 50px;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: #ac615d;
   color: white;
-  border-radius: 8px;
+  border-radius: 5px;
   border: none;
   cursor: pointer;
 `;

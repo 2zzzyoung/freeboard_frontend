@@ -29,9 +29,16 @@ export const MainForm = styled.form`
 
 export const ProductTitleWrapper = styled.div`
   display: flex;
-  height: 140px;
+  height: 150px;
   border-bottom: 1px solid rgb(220, 219, 228);
   padding: 32px 0;
+  align-items: center;
+`;
+
+export const ProductContentsWrapper = styled.div`
+  display: flex;
+  height: 350px;
+  border-bottom: 1px solid rgb(220, 219, 228);
   align-items: center;
 `;
 
@@ -145,11 +152,14 @@ export const CountInput = styled.input`
 `;
 
 export const EnrollBtn = styled.button`
+  font-size: 15px;
+  font-weight: 500;
   background-color: #055948;
   color: white;
   border: none;
   width: 15%;
   height: 50px;
+  border-radius: 5px;
   cursor: pointer;
 `;
 
@@ -172,6 +182,7 @@ export const ImgBtn = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
   cursor: pointer;
 `;
 

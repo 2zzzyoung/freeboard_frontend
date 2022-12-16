@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import DaumPostcodeEmbed from "react-daum-postcode";
 // import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import useEffect from "react";
 
 const ReactQuill = dynamic(async () => await import("react-quill"), {
   ssr: false,
@@ -140,21 +141,22 @@ export default function ProductWriteUI(props: IProductWriteUIProps) {
                   defaultValue={props.data?.fetchUseditem.price || ""}
                   {...props.register("price")}
                 />
-                원{/* <S.OutLineStyle /> 배송비 포함 */}
+                원
                 <S.ErrorMsg>{props.formState.errors.price?.message}</S.ErrorMsg>
               </S.PriceWrapper>
             </S.ProductTitleWrapper>
-            <S.ProductTitleWrapper>
+            <S.ProductContentsWrapper>
               <S.ProductInfo>상품소개</S.ProductInfo>
               <ReactQuill
                 placeholder="상품 설명을 입력해주세요"
                 onChange={props.onChangeContents}
                 value={props.data?.fetchUseditem.contents || ""}
+                style={{ width: "60%", height: "200px" }}
               />
               <S.ErrorMsg>
                 {props.formState.errors.contents?.message}
               </S.ErrorMsg>
-            </S.ProductTitleWrapper>
+            </S.ProductContentsWrapper>
             {/* <S.ProductTitleWrapper>
               <S.ProductInfo>연관태그</S.ProductInfo>
 

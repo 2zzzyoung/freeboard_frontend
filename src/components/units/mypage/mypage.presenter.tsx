@@ -6,8 +6,9 @@ export default function MyPageUI(props) {
     <S.MyPageWrapper>
       <S.Container>
         <S.MyInfo>
+          {/* <S.MyImg>{props.userData?.fetchUserLoggedIn.picture}</S.MyImg> */}
           <S.MyImg></S.MyImg>
-          <S.MyNicName>{props.userData?.fetchUserLoggedIn.name}</S.MyNicName>
+          <S.MyName>{props.userData?.fetchUserLoggedIn.name}</S.MyName>
           <S.MyPoint>
             {props.userData?.fetchUserLoggedIn.userPoint.amount} P
           </S.MyPoint>

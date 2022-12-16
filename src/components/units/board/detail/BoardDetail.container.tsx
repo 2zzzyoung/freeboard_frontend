@@ -147,8 +147,6 @@ export default function BoardDetail() {
   const onLoadMore = () => {
     if (!data) return;
 
-    console.log("asd");
-
     void fetchMore({
       variables: {
         page: Math.ceil(commentData?.fetchBoardComments.length / 10) + 1,

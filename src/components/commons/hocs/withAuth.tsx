@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { accessTokenState } from "../../../store";
+import { errorModal } from "../modal/modal-function";
 
 export const withAuth = (Component: any) => (props: any) => {
   const router = useRouter();
@@ -9,7 +10,7 @@ export const withAuth = (Component: any) => (props: any) => {
 
   useEffect(() => {
     if (!accessToken) {
-      alert("로그인 후 이용 가능합니다!!");
+      errorModal("로그인 후 이용 가능합니다.");
       void router.push("/login");
     }
   }, []);

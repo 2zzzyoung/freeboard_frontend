@@ -19,7 +19,7 @@ export default function LayoutHeader() {
   const [logoutUser] = useMutation(LOGOUT_USER);
 
   const onClickLogo = () => {
-    void router.push("/boards");
+    void router.push("/products/list");
   };
 
   const onClickMoveToLogin = () => {
@@ -74,10 +74,10 @@ export default function LayoutHeader() {
                 });
               },
             });
-            alert("충전에 성공하였습니다.");
+            successModal("충전에 성공하였습니다.");
           } else {
             // 결제 실패 시 로직,
-            alert("충전이 실패했습니다. 다시 시도해주세요.");
+            errorModal("충전이 실패했습니다. 다시 시도해주세요.");
           }
         }
       );

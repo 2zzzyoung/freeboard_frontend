@@ -16,8 +16,6 @@ export default function ProductList() {
   const [refetchNum, setRefetchNum] = useRecoilState(refetch);
   const [lookProductData, setLookProductData] = useState([]);
 
-  console.log(lookProductData);
-
   const router = useRouter();
   const { data, fetchMore } = useQuery<
     Pick<IQuery, "fetchUseditems">,
@@ -25,9 +23,10 @@ export default function ProductList() {
   >(FETCH_USED_ITEMS);
 
   useEffect(() => {
-    const result = JSON.parse(sessionStorage.getItem("baskets"));
+    const result = JSON.parse(sessionStorage.getItem("baskets") ?? "[]");
     setLookProductData(result);
   }, [refetchNum]);
+  // console.log(setLookProductData);
 
   const onClickMoveDetail = (basket: IBoard) => (event: any) => {
     console.log(basket);
@@ -58,7 +57,7 @@ export default function ProductList() {
     void router.push("/products/write");
   };
 
-  const infiniteFun = () => {
+  const infiniteFunc = () => {
     if (data === undefined) return;
     void fetchMore({
       variables: {
@@ -83,7 +82,7 @@ export default function ProductList() {
         data={data}
         onClickMoveDetail={onClickMoveDetail}
         onClickMoveWrite={onClickMoveWrite}
-        infiniteFun={infiniteFun}
+        infiniteFunc={infiniteFunc}
         lookProductData={lookProductData}
       />
     </>

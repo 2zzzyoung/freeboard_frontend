@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { MouseEvent, useState } from "react";
 import { successModal } from "../../../commons/modal/modal-function";

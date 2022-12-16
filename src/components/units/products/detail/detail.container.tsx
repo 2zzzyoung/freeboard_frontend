@@ -16,6 +16,7 @@ import {
 import ProductDetailUI from "./detail.presenter";
 import {
   DELETE_USED_ITEM,
+  FETCH_COMMENTS,
   FETCH_USED_ITEM,
   PRODUCT_BUY,
   TOGGLE_USED_ITEM_PICK,
@@ -33,7 +34,13 @@ export default function ProductDetail() {
   >(FETCH_USED_ITEM, {
     variables: { useditemId: String(router.query.productId) },
   });
-  console.log(data);
+
+  const { data: commentData } = useQuery(FETCH_COMMENTS, {
+    variables: {
+      page: 1,
+      useditemId: router.query.productId,
+    },
+  });
 
   const [deleteUsedItem] = useMutation<
     Pick<IMutation, "deleteUseditem">,
@@ -76,7 +83,7 @@ export default function ProductDetail() {
     // 2. 이미 담겼는지 확인하기
     const temp = baskets.filter((el) => el._id === basket._id);
     if (temp.length === 1) {
-      alert("이미 담으신 물품입니다!!!");
+      errorModal("이미 담으신 물품입니다!!!");
       return;
     }
 
@@ -85,7 +92,7 @@ export default function ProductDetail() {
     console.log(newBasket);
     baskets.push(newBasket);
     localStorage.setItem("baskets", JSON.stringify(baskets));
-    alert("장바구니에 담겼습니다.");
+    successModal("장바구니에 담겼습니다.");
     setRefetchNum((prev) => prev + 1);
   };
 
@@ -154,6 +161,7 @@ export default function ProductDetail() {
       onClickProductBuy={onClickProductBuy}
       onClickBasket={onClickBasket}
       onClickPicked={onClickPicked}
+      commentData={commentData}
     />
   );
 }

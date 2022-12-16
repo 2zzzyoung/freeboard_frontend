@@ -33,7 +33,7 @@ export default function LayoutHeaderUI(props: any) {
           {accessToken ? (
             <>
               <InnerButton style={{ cursor: "default" }}>
-                {props.userData?.fetchUserLoggedIn.userPoint.amount}포인트
+                {props.userData?.fetchUserLoggedIn.userPoint.amount} 포인트
               </InnerButton>
               <InnerButton onClick={props.onClickPointCharge}>
                 포인트 충전
@@ -53,12 +53,12 @@ export default function LayoutHeaderUI(props: any) {
             <InnerButton onClick={props.onClickMoveToLogin}>로그인</InnerButton>
           )}
 
-          <InnerButton>최근 본 상품</InnerButton>
+          {/* <InnerButton>최근 본 상품</InnerButton> */}
           <InnerButton>
             <ShoppingCartOutlined />
             <BasketNum>{basketNum}</BasketNum>
           </InnerButton>
-          <InnerButton>고객센터</InnerButton>
+          {/* <InnerButton>고객센터</InnerButton> */}
         </div>
       </InnerWrapper>
     </Wrapper>

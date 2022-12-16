@@ -12,9 +12,10 @@ export const Container = styled.div`
 export const MyInfo = styled.div`
   width: 600px;
   margin: 0 auto;
-  border: 8px dotted #007261;
+  border: 15px dotted #007261;
   border-radius: 10px;
   padding: 30px;
+  margin-top: 10%;
 `;
 
 export const MyImg = styled.div`
@@ -27,7 +28,7 @@ export const MyImg = styled.div`
   background-size: cover;
 `;
 
-export const MyNicName = styled.p`
+export const MyName = styled.p`
   font-size: 24px;
   font-weight: 500;
   color: #111;
@@ -35,7 +36,7 @@ export const MyNicName = styled.p`
 `;
 
 export const MyPoint = styled.p`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   color: hotpink;
   text-align: center;
@@ -52,10 +53,10 @@ export const TabMenuList = styled.ul`
 export const TabMenu = styled.li`
   width: 20%;
   border-radius: 10px;
-  border: 1px dotted hotpink;
+  border: 3px dashed hotpink;
   padding: 10px 0;
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 500;
   color: #111;
   text-align: center;
   list-style: none;
