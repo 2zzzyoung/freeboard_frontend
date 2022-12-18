@@ -107,13 +107,15 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button`
+  font-size: 15px;
   font-weight: 500;
-  height: 20px;
+  width: 200px;
+  /* height: 30px; */
   background: #005848;
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px 30px;
+  padding: 15px 20px 35px;
   cursor: pointer;
 `;
 
@@ -129,10 +131,10 @@ export const MutationBtn = styled.button`
   background: #005848;
   border: none;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 400;
   color: #fff;
-  padding: 10px 40px;
+  padding: 10px 20px;
   cursor: pointer;
 `;
 

@@ -59,8 +59,6 @@ export default function ProductWrite(props: IProductWriteProps) {
     },
   });
 
-  console.log(data);
-
   const onClickaddressSearch = () => {
     setIsOpen((prev) => !prev);
   };
