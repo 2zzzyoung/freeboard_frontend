@@ -63,6 +63,7 @@ const CommentWrite = ({ isEdit, commentId, el, setIsUpdateComment }) => {
       errorModal(error.message);
     }
   };
+  // 댓글 대댓글 입력 후 내용 "" 안됨
 
   return (
     <CommentWriteUI
