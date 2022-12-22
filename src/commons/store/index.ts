@@ -31,3 +31,8 @@ export const MapLngState = atom({
   key: "MapLangState",
   default: "",
 });
+
+export const productDatas = atom({
+  key: "productDatas",
+  default: "",
+});

@@ -23,10 +23,14 @@ export default function ProductList() {
   >(FETCH_USED_ITEMS);
 
   useEffect(() => {
-    const result = JSON.parse(sessionStorage.getItem("baskets") ?? "[]");
-    setLookProductData(result);
+    if (localStorage.getItem("lookProductData") !== null) {
+      const lookData = JSON.parse(localStorage.getItem("baskets") ?? "[]");
+      const newArr = lookData.filter((el, index) => el !== null);
+      const setArr = [...new Set(newArr.map(JSON.stringify))].map(JSON.parse);
+      setLookProductData(setArr);
+    }
   }, [refetchNum]);
-  // console.log(setLookProductData);
+  console.log(setLookProductData);
 
   const onClickMoveDetail = (basket: IBoard) => (event: any) => {
     console.log(basket);
