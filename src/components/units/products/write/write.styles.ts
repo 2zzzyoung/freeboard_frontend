@@ -24,7 +24,7 @@ export const ProductInfo = styled.div`
 `;
 
 export const MainForm = styled.form`
-  width: 1200px;
+  width: 1600px;
 `;
 
 export const ProductTitleWrapper = styled.div`

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  width: 600px;
+  width: 1600px;
   /* height: 1410px; */
   display: flex;
   flex-direction: column;
@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `;
 
 export const ShopName = styled.div`
-  font-size: 20px;
+  font-size: 60px;
   font-weight: bold;
   font-family: "Noto Sans KR", sans-serif;
   margin-top: 60px;
@@ -51,8 +51,8 @@ export const MemberPw = styled.div`
 `;
 
 export const LoginBtn = styled.button`
-  width: 460px;
-  height: 45px;
+  width: 400px;
+  height: 50px;
   background-color: #31363d;
   color: white;
   border-radius: 5px;
