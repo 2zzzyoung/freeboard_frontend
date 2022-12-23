@@ -5,14 +5,16 @@ import {
   IBoard,
   IMutation,
   IMutationDeleteUseditemArgs,
+  IMutationUpdateUseditemArgs,
   IQuery,
   IQueryFetchUseditemArgs,
 } from "../../../../commons/types/generated/types";
-import { refetch } from "../../../../store";
+import { accessTokenState, refetch } from "../../../../store";
 import {
   errorModal,
   successModal,
 } from "../../../commons/modal/modal-function";
+import { UPDATE_USED_ITEM } from "../write/writer.queries";
 import ProductDetailUI from "./detail.presenter";
 import {
   DELETE_USED_ITEM,
@@ -46,6 +48,11 @@ export default function ProductDetail() {
     Pick<IMutation, "deleteUseditem">,
     IMutationDeleteUseditemArgs
   >(DELETE_USED_ITEM);
+
+  const [updateUsedItem] = useMutation<
+    Pick<IMutation, "updateUsedItem">,
+    IMutationUpdateUseditemArgs
+  >(UPDATE_USED_ITEM);
 
   const [productBuy] = useMutation(PRODUCT_BUY);
 
@@ -149,7 +156,25 @@ export default function ProductDetail() {
     void router.push("/products/list");
   };
 
-  const onClickMoveToEdit = () => {
+  ////////////// 이 부분 수정 /////////////////////
+  const onClickMoveToEdit = async () => {
+    try {
+      await updateUsedItem({
+        variables: {
+          updateUseditemInput: UpdateUseditemInput,
+          useditemId: String(router.query.productId),
+        },
+        update(cache) {
+          cache.modify({
+            fields: () => {},
+          });
+        },
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        errorModal(error.message);
+      }
+    }
     void router.push(`/products/${router.query.productId}/edit`);
   };
 
