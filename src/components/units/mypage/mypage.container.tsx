@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { IQuery } from "../../../commons/types/generated/types";
 import MyPageUI from "./mypage.presenter";
@@ -10,6 +11,7 @@ import {
 } from "./mypage.queries";
 
 export default function MyPage() {
+  const router = useRouter();
   const [boughtList, setBoughtList] = useState(true);
   const [soldList, setSoldList] = useState(false);
   const [pickedList, setPickedList] = useState(false);
@@ -32,6 +34,10 @@ export default function MyPage() {
     useQuery<Pick<IQuery, "fetchUserLoggedIn">>(FETCH_USER_LOGGED_IN);
 
   console.log(userData);
+
+  const onClickMoveDetail = (el) => () => {
+    router.push(`/products/${el._id}`);
+  };
 
   const onClickToBuy = () => {
     setBoughtList(true);
@@ -61,6 +67,7 @@ export default function MyPage() {
       onClickToSold={onClickToSold}
       onClickToPick={onClickToPick}
       userData={userData}
+      onClickMoveDetail={onClickMoveDetail}
     />
   );
 }

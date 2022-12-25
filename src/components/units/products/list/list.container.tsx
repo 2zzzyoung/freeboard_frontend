@@ -23,36 +23,29 @@ export default function ProductList() {
   >(FETCH_USED_ITEMS);
 
   useEffect(() => {
-    if (localStorage.getItem("lookProductData") !== null) {
-      const lookData = JSON.parse(localStorage.getItem("baskets") ?? "[]");
-      const newArr = lookData.filter((el, index) => el !== null);
-      const setArr = [...new Set(newArr.map(JSON.stringify))].map(JSON.parse);
-      setLookProductData(setArr);
-    }
+    const result = JSON.parse(sessionStorage.getItem("baskets"));
+    setLookProductData(result);
   }, [refetchNum]);
-  console.log(setLookProductData);
 
   const onClickMoveDetail = (basket: IBoard) => (event: any) => {
+    router.push(`/products/${basket._id}`);
     console.log(basket);
     // 1. 기존 장바구니 가져오기
     const baskets: IBaskets = JSON.parse(
       sessionStorage.getItem("baskets") ?? "[]"
     );
-
     // 2. 이미 담겼는지 확인하기
     const temp = baskets.filter((el) => el._id === basket._id);
     if (temp.length === 1) {
       return;
     }
-
     if (baskets.length > 3) {
-      baskets.shift();
+      baskets.pop();
     }
-
     // 3. 해당 장바구니에 담기
     const { __typename, ...newBasket } = basket;
     console.log(newBasket);
-    baskets.push(newBasket);
+    baskets.unshift(newBasket);
     sessionStorage.setItem("baskets", JSON.stringify(baskets));
     setRefetchNum((prev) => prev + 1);
   };

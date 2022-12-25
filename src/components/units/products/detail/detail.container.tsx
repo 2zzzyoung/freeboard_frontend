@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import {
   IBoard,
@@ -123,7 +124,7 @@ export default function ProductDetail() {
     }
   };
 
-  //   console.log(data?.fetchUseditem.useditemAddress?.lat);
+  // console.log(data?.fetchUseditem.useditemAddress?.lat);
   // useEffect(() => {
   //   localStorage.setItem("basket", JSON.stringify([router.query.id]));
   //   const baskets = JSON.parse(localStorage.getItem("basket") ?? "[]"); // basket에 있는 값을 배열로 받음
@@ -156,25 +157,7 @@ export default function ProductDetail() {
     void router.push("/products/list");
   };
 
-  ////////////// 이 부분 수정 /////////////////////
   const onClickMoveToEdit = async () => {
-    try {
-      await updateUsedItem({
-        variables: {
-          updateUseditemInput: UpdateUseditemInput,
-          useditemId: String(router.query.productId),
-        },
-        update(cache) {
-          cache.modify({
-            fields: () => {},
-          });
-        },
-      });
-    } catch (error) {
-      if (error instanceof Error) {
-        errorModal(error.message);
-      }
-    }
     void router.push(`/products/${router.query.productId}/edit`);
   };
 

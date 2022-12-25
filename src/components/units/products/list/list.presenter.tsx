@@ -22,7 +22,7 @@ export default function ProductListUI(props: IProductListUIProps) {
                 <ItemBox
                   el={el}
                   key={el._id}
-                  onClick={props.onClickMoveDetail(el)}
+                  onClick={props.onClickMoveDetail}
                 />
               );
             })}

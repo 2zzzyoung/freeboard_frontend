@@ -23,25 +23,25 @@ export const ItemPick = styled.p``;
 
 export default function ItemBox(props: any) {
   return (
-    <Link href={`/products/${props.el._id}`}>
-      <Wrapper>
-        {console.log(props.el.images[0])}
-        <ImageContainer
-          style={{
-            backgroundImage: props.el.images[0]
-              ? `url(http://storage.googleapis.com/${props.el.images[0].replaceAll(
-                  " ",
-                  "%20"
-                )})`
-              : `url(/cat.png)`,
-          }}
-        ></ImageContainer>
-        <ItemInfo>
-          <ItemTitle>{props.el.name}</ItemTitle>
-          <ItemPrice>{props.el.price}원</ItemPrice>
-          <ItemPick>찜 {props.el.pickedCount}</ItemPick>
-        </ItemInfo>
-      </Wrapper>
-    </Link>
+    // <Link href={`/products/${props.el._id}`}>
+    <Wrapper onClick={props.onClick(props.el)}>
+      {console.log(props.el.images[0])}
+      <ImageContainer
+        style={{
+          backgroundImage: props.el.images[0]
+            ? `url(http://storage.googleapis.com/${props.el.images[0].replaceAll(
+                " ",
+                "%20"
+              )})`
+            : `url(/cat.png)`,
+        }}
+      ></ImageContainer>
+      <ItemInfo>
+        <ItemTitle>{props.el.name}</ItemTitle>
+        <ItemPrice>{props.el.price}원</ItemPrice>
+        <ItemPick>찜 {props.el.pickedCount}</ItemPick>
+      </ItemInfo>
+    </Wrapper>
+    // </Link>
   );
 }
